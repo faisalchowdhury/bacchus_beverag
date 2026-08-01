@@ -1,0 +1,575 @@
+/* Custom Properties & Theme Colors */
+:root {
+  --primary-bg: #ffffff;
+  --secondary-bg: #f5f8ff;
+  --card-bg: #ffffff;
+  --accent-blue: #1b6ef3;
+  --text-primary: #1e2332;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --border-color: #e2e8f0;
+}
+
+/* Global Styles */
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial,
+    sans-serif;
+  background: #ffffff;
+  color: #1e2332;
+  overflow-x: hidden;
+}
+
+/* Custom Gradients */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #1b6ef3 0%, #00b4f0 100%);
+}
+
+.bg-gradient-dark {
+  background: linear-gradient(180deg, #ffffff 0%, #f5f8ff 100%);
+}
+
+.bg-gradient-radial {
+  background: radial-gradient(circle, var(--tw-gradient-stops));
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #1b6ef3 0%, #00b4f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.gradient-text-animated {
+  background: linear-gradient(135deg, #1b6ef3 0%, #00b4f0 50%, #1b6ef3 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 3s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+}
+
+/* Logo Styling */
+.logo-icon {
+  filter: drop-shadow(0 0 10px rgba(27, 110, 243, 0.3));
+}
+
+.logo-text {
+  background: linear-gradient(135deg, #1b6ef3 0%, #00b4f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Navigation */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(135deg, #1b6ef3 0%, #00b4f0 100%);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.bg-dark-nav {
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Hero Background Animation */
+.hero-background {
+  background:
+    radial-gradient(
+      circle at 20% 50%,
+      rgba(27, 110, 243, 0.06) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(0, 180, 240, 0.04) 0%,
+      transparent 50%
+    );
+  opacity: 0.8;
+  animation: pulse 8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Parallax Circles */
+.parallax-circle-1 {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(27, 110, 243, 0.08) 0%,
+    transparent 70%
+  );
+  top: 10%;
+  right: -100px;
+  z-index: 1;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.parallax-circle-2 {
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(0, 180, 240, 0.06) 0%,
+    transparent 70%
+  );
+  bottom: 15%;
+  left: -80px;
+  z-index: 1;
+  filter: blur(50px);
+  pointer-events: none;
+}
+
+/* Premium Phone Mockup */
+.phone-mockup-premium {
+  width: 320px;
+  height: 650px;
+  background: linear-gradient(
+    145deg,
+    rgba(245, 248, 255, 0.9),
+    rgba(255, 255, 255, 0.95)
+  );
+  border-radius: 45px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 12px;
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.1),
+    0 0 80px rgba(27, 110, 243, 0.12),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  position: relative;
+  animation: float-premium 6s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.phone-mockup-premium:hover {
+  transform: scale(1.02);
+}
+
+.phone-screen-premium {
+  width: 100%;
+  height: 100%;
+  background: #f5f8ff;
+  border-radius: 35px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Phone Notch */
+.phone-notch {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 28px;
+  background: #1e2332;
+  border-radius: 0 0 20px 20px;
+  z-index: 10;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Floating Elements */
+.floating-element {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: rgba(27, 110, 243, 0.08);
+  border: 2px solid rgba(27, 110, 243, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.floating-1 {
+  top: 15%;
+  right: -25px;
+  animation: float-1 4s ease-in-out infinite;
+}
+
+.floating-2 {
+  bottom: 30%;
+  left: -25px;
+  animation: float-2 5s ease-in-out infinite 1s;
+}
+
+.floating-3 {
+  top: 60%;
+  right: -30px;
+  animation: float-3 6s ease-in-out infinite 2s;
+}
+
+@keyframes float-premium {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes float-1 {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-10px, -15px);
+  }
+}
+
+@keyframes float-2 {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(10px, 15px);
+  }
+}
+
+@keyframes float-3 {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-15px, 10px);
+  }
+}
+
+/* Store Buttons - Dark style (conventional for app stores) */
+.store-button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  background: #1e2332;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  color: #ffffff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.store-button:hover {
+  background: #1b6ef3;
+  border-color: #1b6ef3;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(27, 110, 243, 0.35);
+}
+
+.store-button-large {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 3rem;
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 1rem;
+  color: #1e2332;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.store-button-large:hover {
+  background: #f0f5ff;
+  border-color: #1b6ef3;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(27, 110, 243, 0.15);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeInRight {
+  animation: fadeInRight 1s ease-out;
+}
+
+@keyframes rotate-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-rotate-slow {
+  animation: rotate-slow 30s linear infinite;
+}
+
+/* Custom Shadows */
+.shadow-glow {
+  box-shadow: 0 0 40px rgba(27, 110, 243, 0.2);
+}
+
+.shadow-glow-sm {
+  box-shadow: 0 0 20px rgba(27, 110, 243, 0.15);
+}
+
+/* Feature Cards */
+.feature-card-premium {
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+}
+
+.feature-card-premium::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(27, 110, 243, 0.06),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.feature-card-premium:hover::before {
+  left: 100%;
+}
+
+/* Step Cards */
+.step-card-premium {
+  background: #ffffff;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* Shimmer Effect */
+.shimmer-effect {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(27, 110, 243, 0.04),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.group:hover .shimmer-effect {
+  transform: translateX(100%);
+}
+
+/* Stats Cards */
+.stat-card {
+  background: #ffffff;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* Shield Icon */
+.shield-icon {
+  filter: drop-shadow(0 0 30px rgba(27, 110, 243, 0.2));
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f8ff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #1b6ef3, #00b4f0);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #0050cc, #1b6ef3);
+}
+
+/* Selection */
+::selection {
+  background: rgba(27, 110, 243, 0.2);
+  color: #1e2332;
+}
+
+/* Grid Pattern */
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(27, 110, 243, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(27, 110, 243, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .phone-mockup-premium {
+    width: 280px;
+    height: 570px;
+  }
+
+  .floating-element {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .parallax-circle-1,
+  .parallax-circle-2 {
+    opacity: 0.4;
+  }
+}
+
+/* ============================================= */
+/* Mobile App-Style Banner Slider (hero, mobile)  */
+/* ============================================= */
+
+/* Full app screenshot, shown at its natural height like the desktop
+   phone screen — simple, full-height preview for every language. */
+.app-banner {
+  position: relative;
+  width: 100%;
+  max-width: clamp(260px, 78vw, 360px);
+  margin: 0 auto;
+  border-radius: clamp(16px, 4vw, 24px);
+  overflow: hidden;
+  box-shadow:
+    0 16px 40px rgba(27, 110, 243, 0.16),
+    0 2px 8px rgba(0, 0, 0, 0.06);
+  touch-action: pan-y;
+  background: #eaf2ff;
+}
+
+/* The full screenshot fills the card width at its natural height. */
+.app-banner-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@keyframes screenFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-screenFade {
+  animation: screenFade 0.4s ease-out;
+}
+
+/* Swipe arrows */
+.app-preview-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--accent-blue);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 6px 18px rgba(27, 110, 243, 0.18);
+  z-index: 20;
+  backdrop-filter: blur(4px);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.app-preview-arrow:active {
+  transform: translateY(-50%) scale(0.9);
+  background: #f0f5ff;
+}
+
+.app-preview-arrow-left {
+  left: 10px;
+}
+
+.app-preview-arrow-right {
+  right: 10px;
+}
+
