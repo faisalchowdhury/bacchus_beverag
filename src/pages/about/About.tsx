@@ -1,7 +1,7 @@
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import { Link } from "react-router";
-import { Award, Compass, Heart, ArrowRight } from "lucide-react";
+import { Award, Compass, Heart, ArrowRight, Users } from "lucide-react";
 
 export default function About() {
   const values = [
@@ -22,25 +22,28 @@ export default function About() {
     }
   ];
 
-  const team = [
+  /**
+   * Our head mixologists. Bios are their own words, verbatim.
+   *
+   * ⚠ TODO(client): drop the two supplied headshots into `public/team/` using
+   *   exactly these filenames. Until a file is present the card falls back to
+   *   an initials monogram, so a missing image never shows as a broken photo.
+   *     IMG-20260804-WA0000.jpg → public/team/lauren-duppstadt.jpg
+   *     IMG-20260804-WA0001.jpg → public/team/laura-leary.jpg
+   */
+  const team: { name: string; role: string; bio?: string; img: string }[] = [
     {
-      name: "Jean-Louis Bacchus",
-      role: "Founder & Creative Director",
-      bio: "A veteran of the Parisian fine hospitality scene, Jean-Louis founded Bacchus to bring five-star hotel mixology directly to private wedding venues.",
-      img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400"
+      name: "Lauren Duppstadt",
+      role: "Head Mixologist",
+      bio: "Lauren Duppstadt is a professional mixologist with eight years of experience specializing in bespoke cocktail creation, house-made infusions, shrubs, syrups, and culinary-inspired flavor development. As the Owner and Operator of Liquid Lore Spirits Lab, she designs custom cocktail experiences and beverage programs for weddings, private events, and hospitality venues, combining classic technique with modern creativity to craft drinks that are as memorable as the occasions they celebrate. With a background in high-volume hospitality, Lauren brings precision, consistency, and genuine warmth to every guest interaction. She believes exceptional hospitality extends far beyond what's in the glass—it's about creating an experience that feels personal, effortless, and unforgettable, leaving guests with memories that linger long after the final sip.",
+      img: "/team/lauren-duppstadt.jpg",
     },
     {
-      name: "Amelia Thorne",
-      role: "Lead Master Mixologist",
-      bio: "Amelia curates our seasonal botanical menus. Her expertise in organic extractions and edible floral essences defines our cocktail program.",
-      img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400"
+      name: "Laura Leary",
+      role: "Head Mixologist",
+      // Bio pending from Laura — the card renders without it until it arrives.
+      img: "/team/laura-leary.jpg",
     },
-    {
-      name: "Raymond Sterling",
-      role: "Head Sommelier",
-      bio: "Raymond leads our estate wine partnerships, meticulously curating wine profiles and champagne tiers for our luxury open bars.",
-      img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400"
-    }
   ];
 
   return (
@@ -89,7 +92,7 @@ export default function About() {
                 Bacchus Beverages was founded on a simple realization: while wedding venues, floral arrangements, and cuisine had ascended to unprecedented levels of artistic luxury, the event bar had remained static, pouring generic corporate mixers from standardized ice coolers.
               </p>
               <p className="text-white/60 text-sm sm:text-base leading-relaxed font-light">
-                We set out to dismantle the standard. Our team treats beverage planning as a bespoke gallery curation process. From constructing beautiful hand-built mobile bars styled in Italian marble or custom dark oak to distilling our own flower essences, Bacchus ensures the bar becomes the sensory anchor of your celebration.
+                We set out to dismantle the standard. Our head mixologists treat beverage planning as a craft — house-made infusions, shrubs and syrups, culinary-inspired flavour development, and genuine warmth across the bar. Paired with our vintage bar pieces and the permanent bar beside the ballroom, Bacchus makes the bar the sensory anchor of your celebration.
               </p>
             </div>
 
@@ -128,39 +131,80 @@ export default function About() {
       {/* Team Section */}
       <section className="py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-20">
+          <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-xs uppercase tracking-[0.3em] text-luxury-gold font-sans font-semibold mb-3 block">
-              Our Artisans
+              Our Head Mixologists
             </span>
             <h2 className="text-3xl sm:text-4xl font-serif font-bold">
-              Meet The <span className="gradient-text-gold font-serif">Beverage Designers</span>
+              The People <span className="gradient-text-gold font-serif">Behind The Bar</span>
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {team.map((t, i) => (
-              <div key={i} className="glass-card rounded-[32px] overflow-hidden border-white/5 flex flex-col group">
-                {/* Team photo */}
-                <div className="aspect-[4/5] relative overflow-hidden">
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                    style={{ backgroundImage: `url('${t.img}')` }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-transparent to-transparent opacity-80" />
+          {team.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+              {team.map((t) => (
+                <div
+                  key={t.name}
+                  className="glass-card rounded-[32px] border-white/5 p-8 sm:p-9 flex flex-col group"
+                >
+                  {/* Compact portrait. Kept small on purpose — the supplied files
+                      are low-resolution, and a small avatar barely upscales them. */}
+                  <div className="flex flex-col items-center text-center mb-7">
+                    <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden bg-luxury-charcoal ring-1 ring-luxury-gold/25 mb-5">
+                      {/* Initials monogram sits underneath; the photo covers it once present. */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="font-serif text-2xl font-bold text-luxury-gold/30 tracking-widest">
+                          {t.name
+                            .split(" ")
+                            .map((part) => part[0])
+                            .join("")}
+                        </span>
+                      </div>
+                      <img
+                        src={t.img}
+                        alt={`${t.name}, ${t.role}`}
+                        loading="lazy"
+                        onError={(e) => {
+                          // No file dropped in yet — reveal the monogram instead.
+                          e.currentTarget.style.display = "none";
+                        }}
+                        className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    <h4 className="font-serif text-2xl font-bold text-luxury-ivory">{t.name}</h4>
+                    <span className="text-[10px] uppercase tracking-widest text-luxury-gold font-sans font-semibold block mt-1">
+                      {t.role}
+                    </span>
+                  </div>
+
+                  {t.bio ? (
+                    <p className="text-white/50 text-xs sm:text-sm font-light leading-relaxed">
+                      {t.bio}
+                    </p>
+                  ) : (
+                    <p className="text-white/30 text-xs font-light leading-relaxed italic text-center">
+                      Full introduction coming shortly.
+                    </p>
+                  )}
                 </div>
-                {/* Team meta */}
-                <div className="p-8">
-                  <h4 className="font-serif text-2xl font-bold text-luxury-ivory">{t.name}</h4>
-                  <span className="text-[10px] uppercase tracking-widest text-luxury-gold font-sans font-semibold block mt-1 mb-4">
-                    {t.role}
-                  </span>
-                  <p className="text-white/50 text-xs sm:text-sm font-light leading-relaxed">
-                    {t.bio}
-                  </p>
-                </div>
+              ))}
+            </div>
+          ) : (
+            /* Staff photography pending — see src/config/business.ts */
+            <div className="max-w-3xl mx-auto glass-card rounded-[32px] border-luxury-gold/20 p-12 sm:p-14 text-center">
+              <div className="w-16 h-16 rounded-full bg-luxury-gold/10 text-luxury-gold flex items-center justify-center mx-auto mb-7">
+                <Users size={30} />
               </div>
-            ))}
-          </div>
+              <h3 className="text-2xl sm:text-3xl font-serif font-bold mb-4">
+                Portraits <span className="gradient-text-gold font-serif">Coming Soon</span>
+              </h3>
+              <p className="text-white/55 text-sm sm:text-base leading-relaxed font-light max-w-xl mx-auto">
+                Our bartenders are TIPS-certified and are being photographed on site shortly. We'd
+                rather introduce you to the actual team working your event than to stock portraits of
+                strangers.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 

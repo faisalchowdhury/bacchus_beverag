@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
-import { PACKAGES, TESTIMONIALS, FAQS, GALLERY_IMAGES } from "../../utils/demoData";
+import { SERVICE_STYLES, TESTIMONIALS, FAQS, GALLERY_IMAGES } from "../../utils/demoData";
 
 export default function LandingPage() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -39,22 +39,22 @@ export default function LandingPage() {
   const featuredServices = [
     {
       title: "Open Bar Collections",
-      desc: "An unlimited flow of custom-curated spirits, artisanal wines, and craft beers. Completely custom-tailored to your guests.",
+      desc: "Curated spirits, unfortified wines and our six regularly stocked beers, priced per guest for the hours you choose to pour.",
       icon: "🥂",
     },
     {
-      title: "Signature Custom Mixology",
-      desc: "Two hand-crafted craft cocktails developed specifically for your venue theme, incorporating house-made botanical syrups.",
+      title: "Signature Cocktails",
+      desc: "Offer one to four named cocktails in place of full shelf access, each built from up to two liquors on your chosen tier.",
       icon: "🍹",
     },
     {
-      title: "Champagne Towers & Toasts",
-      desc: "Spectacular multi-tiered champagne towers styled to perfection. Served chilled for your speech and toast moments.",
+      title: "Champagne Toasts",
+      desc: "A dedicated pour for the speeches, served as a stationary display or by bar cart, with sparkling grape juice for non-drinkers.",
       icon: "🍾",
     },
     {
-      title: "Elite Mobile Bar Rentals",
-      desc: "Fully equipped, beautifully lit mobile bar structures in customizable visual styles (classic wood, minimal black, or marble).",
+      title: "Vintage Mobile Bars",
+      desc: "Genuine vintage bar pieces with authentic period character, serving bottled beer alongside your full program.",
       icon: "🏛️",
     },
   ];
@@ -251,44 +251,49 @@ export default function LandingPage() {
               Event Curation
             </span>
             <h2 className="text-4xl sm:text-5xl font-serif font-bold">
-              Tiered <span className="gradient-text-gold font-serif">Beverage Packages</span>
+              Bar <span className="gradient-text-gold font-serif">Service Styles</span>
             </h2>
             <div className="h-[1px] w-24 bg-luxury-gold/30 mx-auto mt-6 mb-4" />
             <p className="text-white/50 text-sm font-light">
-              Predictable, flat-rate pricing per guest. Select a tier preview and customize inside our Instant Quote Wizard.
+              Beverages are priced per guest, per hour of service — never guessed. Choose a style and build the rest inside our Instant Quote Wizard.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {PACKAGES.map((pkg) => (
+            {SERVICE_STYLES.map((style) => (
               <div
-                key={pkg.id}
+                key={style.id}
                 className={`glass-card p-8 sm:p-10 rounded-[32px] flex flex-col justify-between relative transition-all duration-500 ${
-                  pkg.id === "Premium"
+                  style.featured
                     ? "border-luxury-gold/40 bg-luxury-charcoal/80 shadow-xl shadow-luxury-gold/5 scale-100 lg:scale-[1.03]"
                     : "border-white/5 hover:border-white/20"
                 }`}
               >
-                {pkg.id === "Premium" && (
+                {style.featured && (
                   <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-luxury-gold text-luxury-black text-[9px] tracking-widest font-sans font-bold uppercase px-4 py-1.5 rounded-full shadow-lg">
                     Most Popular
                   </span>
                 )}
 
                 <div>
-                  <h3 className="font-serif text-2xl font-bold text-luxury-ivory mb-2">
-                    {pkg.name}
+                  <h3 className="font-serif text-2xl font-bold text-luxury-ivory mb-1">
+                    {style.name}
                   </h3>
-                  <p className="text-white/40 text-xs font-light mb-6">
-                    {pkg.description}
+                  <p className="text-[10px] uppercase tracking-widest text-luxury-gold font-semibold mb-5">
+                    {style.tagline}
                   </p>
-                  <div className="font-serif text-4xl sm:text-5xl font-bold text-luxury-gold mb-8 flex items-baseline gap-1">
-                    ${pkg.pricePerGuest}
-                    <span className="text-xs text-white/40 font-sans font-light tracking-wide">/ guest</span>
+                  <p className="text-white/40 text-xs font-light mb-6 leading-relaxed">
+                    {style.description}
+                  </p>
+                  <div className="font-serif text-4xl sm:text-5xl font-bold text-luxury-gold mb-2">
+                    {style.headline}
                   </div>
+                  <p className="text-[11px] text-white/40 font-light mb-8 leading-relaxed">
+                    {style.headlineNote}
+                  </p>
 
                   <ul className="space-y-4 mb-8">
-                    {pkg.inclusions.slice(0, 5).map((inc, i) => (
+                    {style.inclusions.slice(0, 5).map((inc, i) => (
                       <li key={i} className="flex items-start gap-3 text-xs sm:text-sm font-light text-white/70">
                         <Check size={14} className="text-luxury-gold mt-1 flex-shrink-0" />
                         <span>{inc}</span>
@@ -300,15 +305,24 @@ export default function LandingPage() {
                 <Link
                   to={`/quote`}
                   className={`w-full py-3.5 rounded-full text-xs font-semibold tracking-widest uppercase transition-all duration-300 text-center ${
-                    pkg.id === "Premium"
+                    style.featured
                       ? "bg-luxury-gold text-luxury-black hover:bg-white"
                       : "bg-luxury-gray text-luxury-ivory hover:bg-white hover:text-luxury-black border border-white/5"
                   }`}
                 >
-                  Select & Customize
+                  Build This Program
                 </Link>
               </div>
             ))}
+          </div>
+
+          <div className="text-center mt-14">
+            <Link
+              to="/important-information"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-luxury-gold/30 bg-luxury-gold/[0.06] text-[11px] uppercase tracking-widest font-semibold text-luxury-gold hover:bg-luxury-gold hover:text-luxury-black transition-all duration-300"
+            >
+              Important Information — how selections affect pricing & staffing
+            </Link>
           </div>
         </div>
       </section>
@@ -356,7 +370,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 6. Photo Gallery Preview Grid */}
+      {/* 6. Photo Gallery Preview Grid — hidden until real photography lands */}
+      {GALLERY_IMAGES.length > 0 && (
       <section className="py-24 lg:py-32 bg-luxury-black relative">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="flex flex-col sm:flex-row justify-between items-end gap-6 mb-16">
@@ -397,6 +412,7 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* 7. Animated Stats Section */}
       <section className="py-20 bg-luxury-charcoal/50 border-y border-white/5 relative">

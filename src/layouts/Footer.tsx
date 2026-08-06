@@ -1,10 +1,17 @@
 import { Link } from "react-router";
-import { Mail, Phone, MapPin, Instagram, Facebook, Compass } from "lucide-react";
+import { MapPin, ExternalLink } from "lucide-react";
+import {
+  HONEYBOOK_PORTAL_URL,
+  SOCIAL_LINKS,
+  VENUE_ADDRESS_LINES,
+  VENUE_NAME,
+} from "../config/business";
 
 export default function Footer() {
   const quickLinks = [
     { label: "Our Services", path: "/services" },
     { label: "Beverage Packages", path: "/packages" },
+    { label: "Important Information", path: "/important-information" },
     { label: "The Collection", path: "/inventory" },
     { label: "Visual Gallery", path: "/gallery" },
     { label: "Our Story", path: "/about" },
@@ -31,36 +38,22 @@ export default function Footer() {
             <p className="text-white/50 text-sm leading-relaxed font-light">
               Crafting liquid memories and delivering Michelin-caliber bar services for weddings, corporate galas, and extraordinary celebrations worldwide.
             </p>
-            {/* Socials */}
-            <div className="flex items-center gap-4 mt-2">
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noreferrer"
-                className="w-10 h-10 rounded-full border border-white/10 hover:border-luxury-gold hover:text-luxury-gold flex items-center justify-center transition-all duration-300"
-                aria-label="Instagram"
-              >
-                <Instagram size={16} />
-              </a>
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noreferrer"
-                className="w-10 h-10 rounded-full border border-white/10 hover:border-luxury-gold hover:text-luxury-gold flex items-center justify-center transition-all duration-300"
-                aria-label="Facebook"
-              >
-                <Facebook size={16} />
-              </a>
-              <a
-                href="https://pinterest.com"
-                target="_blank"
-                rel="noreferrer"
-                className="w-10 h-10 rounded-full border border-white/10 hover:border-luxury-gold hover:text-luxury-gold flex items-center justify-center transition-all duration-300"
-                aria-label="Pinterest"
-              >
-                <Compass size={16} />
-              </a>
-            </div>
+            {/* Socials — rendered only once accounts exist (currently none) */}
+            {SOCIAL_LINKS.length > 0 && (
+              <div className="flex items-center gap-4 mt-2">
+                {SOCIAL_LINKS.map((social) => (
+                  <a
+                    key={social.url}
+                    href={social.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-4 py-2 rounded-full border border-white/10 hover:border-luxury-gold hover:text-luxury-gold text-[10px] uppercase tracking-widest font-semibold transition-all duration-300"
+                  >
+                    {social.label}
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Quick Links */}
@@ -82,37 +75,33 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact Details */}
+          {/* Booking route — no email or phone is published */}
           <div className="flex flex-col gap-6">
             <h4 className="font-serif text-lg tracking-wider text-luxury-gold">
-              Inquiries
+              Enquiries
             </h4>
-            <ul className="flex flex-col gap-4">
-              <li className="flex items-start gap-3">
-                <Mail size={16} className="text-luxury-gold mt-1 flex-shrink-0" />
-                <div>
-                  <div className="text-xs text-white/40 uppercase tracking-widest font-medium mb-0.5">Email</div>
-                  <a
-                    href="mailto:events@bacchusbeverages.com"
-                    className="text-white/70 hover:text-luxury-gold text-sm font-light transition-colors duration-300"
-                  >
-                    events@bacchusbeverages.com
-                  </a>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <Phone size={16} className="text-luxury-gold mt-1 flex-shrink-0" />
-                <div>
-                  <div className="text-xs text-white/40 uppercase tracking-widest font-medium mb-0.5">Concierge</div>
-                  <a
-                    href="tel:+18005550199"
-                    className="text-white/70 hover:text-luxury-gold text-sm font-light transition-colors duration-300"
-                  >
-                    +1 (800) 555-0199
-                  </a>
-                </div>
-              </li>
-            </ul>
+            <p className="text-white/50 text-sm font-light leading-relaxed">
+              Start with a quote and we will receive it directly. To move forward or ask a question,
+              reach out to {VENUE_NAME} through your HoneyBook portal.
+            </p>
+            <div className="flex flex-col gap-3">
+              <Link
+                to="/quote"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-luxury-gold text-luxury-black rounded-full text-[10px] uppercase tracking-widest font-semibold hover:bg-white transition-all duration-300"
+              >
+                Build a Quote
+              </Link>
+              {HONEYBOOK_PORTAL_URL && (
+                <a
+                  href={HONEYBOOK_PORTAL_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 border border-white/15 rounded-full text-[10px] uppercase tracking-widest font-semibold text-white/70 hover:text-luxury-gold hover:border-luxury-gold/40 transition-all duration-300"
+                >
+                  HoneyBook Portal <ExternalLink size={11} />
+                </a>
+              )}
+            </div>
           </div>
 
           {/* Logistics / Hours */}
@@ -123,16 +112,22 @@ export default function Footer() {
             <div className="flex items-start gap-3">
               <MapPin size={16} className="text-luxury-gold mt-1 flex-shrink-0" />
               <div>
-                <div className="text-xs text-white/40 uppercase tracking-widest font-medium mb-0.5">Atelier Location</div>
+                <div className="text-xs text-white/40 uppercase tracking-widest font-medium mb-0.5">
+                  Venue
+                </div>
                 <p className="text-white/70 text-sm font-light leading-relaxed">
-                  850 Champagne Suite Lane,<br />
-                  Beverly Hills, CA 90210
+                  {VENUE_NAME}
+                  {VENUE_ADDRESS_LINES.map((line) => (
+                    <span key={line} className="block">
+                      {line}
+                    </span>
+                  ))}
                 </p>
               </div>
             </div>
             <div className="mt-2 text-xs text-white/40 leading-relaxed font-light">
-              Atelier Hours: Mon - Fri: 9am - 6pm PST<br />
-              Event Operations: 24/7 Nationwide
+              One permanent bar station is included with every package, with additional stations
+              available on request.
             </div>
           </div>
         </div>

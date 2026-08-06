@@ -5,6 +5,7 @@ import Services from "../pages/services/Services.tsx";
 import Packages from "../pages/packages/Packages.tsx";
 import Inventory from "../pages/inventory/Inventory.tsx";
 import QuotePage from "../pages/quote/Quote.tsx";
+import ImportantInformation from "../pages/importantInformation/ImportantInformation.tsx";
 import Gallery from "../pages/gallery/Gallery.tsx";
 import About from "../pages/about/About.tsx";
 import Contact from "../pages/contact/Contact.tsx";
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
   {
     path: "/quote",
     element: <QuotePage />,
+  },
+  {
+    path: "/important-information",
+    element: <ImportantInformation />,
   },
   {
     path: "/gallery",

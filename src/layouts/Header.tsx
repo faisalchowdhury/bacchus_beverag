@@ -24,6 +24,7 @@ export default function Header() {
     { label: "Home", path: "/" },
     { label: "Services", path: "/services" },
     { label: "Packages", path: "/packages" },
+    { label: "Important Info", path: "/important-information" },
     { label: "Inventory", path: "/inventory" },
     { label: "Gallery", path: "/gallery" },
     { label: "About", path: "/about" },
@@ -52,12 +53,12 @@ export default function Header() {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-8">
+            <nav className="hidden lg:flex items-center gap-5 xl:gap-8">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`relative text-sm tracking-widest uppercase font-medium transition-colors duration-300 ${
+                  className={`relative text-[11px] xl:text-sm tracking-widest uppercase font-medium whitespace-nowrap transition-colors duration-300 ${
                     location.pathname === link.path
                       ? "text-luxury-gold font-semibold"
                       : "text-white/70 hover:text-luxury-gold"

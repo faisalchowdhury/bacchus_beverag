@@ -9,13 +9,13 @@ export default function Services() {
       id: "open-bar",
       title: "Open Bar Sourcing & Management",
       badge: "Most Selected",
-      desc: "Our turn-key full-service open bar option. Guests enjoy unlimited pours of hand-selected craft spirits, premium reserve wines, and local micro-brews. Billed to the host on a predictable flat-rate per-guest model.",
+      desc: "Our turn-key full-service open bar option. Guests enjoy hand-selected spirits, wines, and beer with nothing to pay at the bar. Billed to the host per guest, per hour of Open Bar service — you choose the wine + beer tier and either signature cocktails or full shelf access.",
       icon: "🥂",
       inclusions: [
         "Sourcing and delivery of entire beverage inventory",
-        "Curated menu of spirits, wines, and craft beers",
-        "Elite TIPS-certified mixologists (1 per 75 guests)",
-        "Stylish mobile bar units, high-clarity ice, and premium garnishes",
+        "Wine + beer tiers from $2.50 per guest per hour, liquor from $2.00",
+        "TIPS-certified bartenders assigned by guest count — 2 up to 50 guests, 3 for 51–125, 4 for 126–200",
+        "One permanent bar station included; high-clarity ice and premium garnishes",
         "Complete licensing and $2,000,000 liability protection"
       ],
       img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=800"
@@ -24,14 +24,14 @@ export default function Services() {
       id: "cash-bar",
       title: "Cash Bar Event Program",
       badge: "Flexible Option",
-      desc: "Perfect for larger public festivals, charity fundraisers, or non-traditional events. Guests pay for their own beverage selections directly at the bar using high-speed digital checkout systems. Host pays a minimal logistics fee.",
+      desc: "Perfect for larger celebrations, charity fundraisers, or non-traditional events. Guests pay for their own beverage selections directly at the bar. Nothing is preselected — drinks are served from available inventory on the day — and the host pays a $550 administrative fee.",
       icon: "💳",
       inclusions: [
-        "Licensed stock management and logistics setup",
+        "$550 administrative fee — waived on Open Bar and Consumption Bar",
         "Full point-of-sale processing (Apple Pay, Credit Card)",
-        "Certified professional bartenders",
-        "Standard domestic beers, house wines, and classic spirits",
-        "Full clean-up, recycling, and breakdown operations"
+        "Served from available inventory on the day of the event",
+        "Open a host tab with restrictions on drinks, guests or spend",
+        "Tabs left open at the close of the event incur a 20% gratuity"
       ],
       img: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&q=80&w=800"
     },
@@ -39,29 +39,29 @@ export default function Services() {
       id: "consumption-bar",
       title: "Private Consumption Bar",
       badge: "Exclusive",
-      desc: "Offer your attendees free-flowing bar access while paying strictly for what is poured. An itemized ticket receipt is calculated at the close of the night. Ideal for intimate vip dinners or elite micro-weddings.",
+      desc: "Offer your guests bar access while paying strictly for what is poured. A prepaid house account of $2,000 or more functions like a gift card — drinks are deducted as they are purchased, and once the balance is exhausted guests become individually responsible.",
       icon: "📊",
       inclusions: [
-        "Flexible inventory stocking based on target guest preferences",
-        "Real-time digital tab tracking by our lead bartender",
-        "Sommelier-selected reserve lists and high-end scotch pours",
-        "Artisanal glassware and signature ice carving options",
-        "Detailed post-event bottle and drink consumption reports"
+        "$2,000 minimum prepaid house account",
+        "Limit the account to wine & beer, signature cocktails, or specific shelf tiers",
+        "Real-time tab tracking by our lead bartender",
+        "Taxes are exempt on drinks charged against the house account",
+        "Gratuities are welcomed but never required"
       ],
       img: "https://images.unsplash.com/photo-1527061011665-3652c757a4d4?auto=format&fit=crop&q=80&w=800"
     },
     {
       id: "mobile-bars",
-      title: "Luxury Mobile Bar Rentals",
-      badge: "Elite Custom",
-      desc: "Our structural bar rentals can serve as standalone statement pieces. Styled to match your theme, we offer several custom options: classic warm dark oak, high-end sleek black metal glassmorphism, or modern gold-accented marble.",
+      title: "Vintage Mobile Bar Rentals",
+      badge: "Vintage Character",
+      desc: "Our mobile bars are genuine vintage pieces, not modern builds. Warm timber, aged character and classic proportions that sit naturally in a historic venue and read as part of the room rather than a rental.",
       icon: "🏛️",
       inclusions: [
-        "Self-contained, beautifully illuminated premium service counters",
-        "Built-in draft keg systems and professional ice wells",
-        "Floral arranging overlays and customized brand signage boards",
+        "Self-contained vintage service counters with authentic period character",
+        "Bottled beer service and professional ice wells",
         "Full white-glove delivery, positioning, and post-event removal",
-        "Sized correctly for event capacities from 50 to 500+ guests"
+        "Paired with the bartender count your guest list requires",
+        "Available as additional bar stations alongside the permanent bar"
       ],
       img: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&q=80&w=800"
     }

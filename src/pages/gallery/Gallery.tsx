@@ -2,7 +2,7 @@ import { useState } from "react";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
 import { GALLERY_IMAGES } from "../../utils/demoData";
-import { X, ZoomIn, ArrowRight } from "lucide-react";
+import { X, ZoomIn, ArrowRight, Camera } from "lucide-react";
 import { Link } from "react-router";
 
 export default function Gallery() {
@@ -10,6 +10,9 @@ export default function Gallery() {
   const [lightboxImg, setLightboxImg] = useState<{ url: string; title: string; category: string } | null>(null);
 
   const categories = ["All", "Weddings", "Corporate", "Private Events"];
+
+  /** Real venue and staff photography is pending — see utils/demoData.ts. */
+  const hasImages = GALLERY_IMAGES.length > 0;
 
   const filteredImages = GALLERY_IMAGES.filter((img) => {
     return filter === "All" || img.category === filter;
@@ -30,12 +33,13 @@ export default function Gallery() {
             Our Event <span className="gradient-text-gold font-serif">Visual Gallery</span>
           </h1>
           <p className="text-white/60 text-lg leading-relaxed max-w-3xl mx-auto font-light">
-            An editorial lookbook of modern cocktail programs, custom structural bar rentals, champagne service towers, and vibrant events.
+            A look at the venue interiors, the bars in place, and the team behind them.
           </p>
         </div>
       </section>
 
-      {/* Category Filters */}
+      {/* Category Filters — hidden until there is photography to filter */}
+      {hasImages && (
       <section className="py-8 bg-luxury-charcoal/30 border-b border-white/5 sticky top-[72px] lg:top-[88px] z-30 backdrop-blur-xl">
         <div className="container mx-auto px-4 text-center">
           <div className="inline-flex flex-wrap justify-center gap-2">
@@ -55,8 +59,37 @@ export default function Gallery() {
           </div>
         </div>
       </section>
+      )}
+
+      {/* Photography pending */}
+      {!hasImages && (
+        <section className="py-28">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
+            <div className="glass-card rounded-[32px] border-luxury-gold/20 p-12 sm:p-16 text-center">
+              <div className="w-20 h-20 rounded-full bg-luxury-gold/10 text-luxury-gold flex items-center justify-center mx-auto mb-8">
+                <Camera size={38} />
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-serif font-bold mb-4">
+                Photography <span className="gradient-text-gold font-serif">In Progress</span>
+              </h2>
+              <p className="text-white/60 text-base leading-relaxed font-light max-w-xl mx-auto mb-10">
+                We're having the venue interiors and our bar team professionally photographed. Rather
+                than fill this page with stock imagery of somewhere else, we'd rather show you the
+                real thing — it's coming shortly.
+              </p>
+              <Link
+                to="/quote"
+                className="inline-flex items-center gap-2 px-10 py-4 bg-luxury-gold text-luxury-black font-semibold text-xs tracking-widest uppercase rounded-full hover:bg-white transition-all duration-300"
+              >
+                Build Your Quote In The Meantime <ArrowRight size={14} />
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Photo Grid Section */}
+      {hasImages && (
       <section className="py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -97,6 +130,7 @@ export default function Gallery() {
           </div>
         </div>
       </section>
+      )}
 
       {/* Lightbox Modal */}
       {lightboxImg && (
