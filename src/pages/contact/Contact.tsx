@@ -1,12 +1,9 @@
 import { Link } from "react-router";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
-import {
-  HONEYBOOK_PORTAL_URL,
-  SOCIAL_LINKS,
-  VENUE_NAME,
-} from "../../config/business";
-import { ExternalLink, ArrowRight, Calculator, MessageSquare, ClipboardList } from "lucide-react";
+import ClientCommunicationNotice from "../../components/ClientCommunicationNotice";
+import { SOCIAL_LINKS, VENUE_NAME } from "../../config/business";
+import { ArrowRight, Calculator, MessageSquare, ClipboardList } from "lucide-react";
 
 /**
  * We deliberately publish no email address and no phone number. Every enquiry
@@ -61,7 +58,7 @@ export default function Contact() {
               </Link>
             </div>
 
-            {/* Step 2 — HoneyBook */}
+            {/* Step 2 — continue in HoneyBook (no general link exists to offer) */}
             <div className="glass-card rounded-[32px] border-luxury-gold/25 p-9 flex flex-col">
               <div className="w-12 h-12 rounded-2xl bg-luxury-gold/10 text-luxury-gold flex items-center justify-center mb-6">
                 <MessageSquare size={22} />
@@ -69,26 +66,8 @@ export default function Contact() {
               <span className="text-[10px] uppercase tracking-widest text-luxury-gold font-semibold mb-2">
                 Step Two
               </span>
-              <h2 className="font-serif text-2xl font-bold mb-3">Reach Out On HoneyBook</h2>
-              <p className="text-white/50 text-sm font-light leading-relaxed mb-8 flex-1">
-                To move forward, or if you have any questions at all, contact {VENUE_NAME} through
-                your HoneyBook portal page. Contracts, payments, scheduling and every piece of event
-                correspondence live there, so nothing gets lost in an inbox.
-              </p>
-              {HONEYBOOK_PORTAL_URL ? (
-                <a
-                  href={HONEYBOOK_PORTAL_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-2 w-full py-4 border border-luxury-gold text-luxury-gold font-semibold text-xs tracking-widest uppercase rounded-full hover:bg-luxury-gold hover:text-luxury-black transition-all duration-300"
-                >
-                  Open HoneyBook Portal <ExternalLink size={13} />
-                </a>
-              ) : (
-                <div className="w-full py-4 rounded-full border border-white/10 text-center text-[11px] uppercase tracking-widest font-semibold text-white/40">
-                  Portal link coming soon
-                </div>
-              )}
+              <h2 className="font-serif text-2xl font-bold mb-4">Already Working With Us?</h2>
+              <ClientCommunicationNotice bare showHeading={false} />
             </div>
           </div>
 
@@ -103,9 +82,9 @@ export default function Contact() {
             <ol className="space-y-5">
               {[
                 "Your itemized quote and contact details are sent to us the moment you submit.",
-                `We look you up and set your file up in HoneyBook under ${VENUE_NAME}.`,
-                "You reach out through your HoneyBook portal whenever you're ready to move forward or have questions.",
-                "Contracts, payment schedule and the final beverage program are all finalized in the portal.",
+                `We look you up and set your project up in HoneyBook under ${VENUE_NAME}.`,
+                "You receive a HoneyBook email link to your own secure client portal.",
+                "From then on, use that link for questions, contracts, payments and your final beverage program.",
               ].map((line, i) => (
                 <li key={i} className="flex items-start gap-4">
                   <span className="w-7 h-7 rounded-full bg-luxury-charcoal border border-luxury-gold/20 text-luxury-gold text-[11px] font-semibold flex items-center justify-center flex-shrink-0 tabular-nums">

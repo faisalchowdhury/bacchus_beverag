@@ -20,15 +20,22 @@ export const BRAND_NAME = "Bacchus Beverages";
 export const VENUE_ADDRESS_LINES: string[] = [];
 
 /**
- * TODO(client): the HoneyBook portal page clients should use to move forward
- * or ask questions. Until this is set, the UI shows the prompt without a link.
+ * There is deliberately NO general HoneyBook link anywhere on the site.
+ *
+ * HoneyBook has no universal login URL that routes a client to their own
+ * project page, so linking anywhere would send people somewhere useless.
+ * Clients use the HoneyBook email link already sent to them instead.
+ *
+ * The user-facing wording lives in
+ * `src/components/ClientCommunicationNotice.tsx`, which has one variant for
+ * existing clients and one for the just-submitted-a-quote screen.
  */
-export const HONEYBOOK_PORTAL_URL = "";
 
 /**
  * Deliberately empty: we do not publish an email address or phone number.
- * Clients are routed through the HoneyBook portal instead, and quote requests
- * are delivered to the owner by the quote endpoint (see src/api/quote.ts).
+ * New enquiries come in through the quote designer, which delivers the client's
+ * details to the owner (see src/api/quote.ts). Existing clients continue in
+ * HoneyBook via the email link already sent to them.
  */
 export const PUBLISH_CONTACT_EMAIL = false;
 
@@ -37,11 +44,3 @@ export const PUBLISH_CONTACT_EMAIL = false;
  * Add handles here and the footer/contact page will pick them up.
  */
 export const SOCIAL_LINKS: { label: string; url: string }[] = [];
-
-/**
- * Real photography of the venue interior and bar staff is pending.
- * Gallery and staff sections render a "coming soon" state while these are
- * empty rather than showing stock imagery of other venues.
- */
-export const HAS_VENUE_PHOTOGRAPHY = false;
-export const HAS_STAFF_PHOTOGRAPHY = false;

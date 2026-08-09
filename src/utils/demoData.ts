@@ -114,9 +114,18 @@ export interface GalleryImage {
 }
 
 /**
- * Real photography of the venue interior and bar staff is pending from the
- * client. This is intentionally empty rather than filled with stock imagery of
- * other venues — the gallery renders a "coming soon" state while it is.
- * Drop the real images in here and every gallery surface picks them up.
+ * Real photography, supplied by the client. Only genuine images belong here —
+ * never stock imagery of other venues.
+ *
+ * ⚠ A full photoshoot of the bar, bar spaces and venue is planned. Note also
+ *   that the venue is about to undergo a large renovation, so any venue
+ *   interior shots added here will need replacing next year.
  */
-export const GALLERY_IMAGES: GalleryImage[] = [];
+export const GALLERY_IMAGES: GalleryImage[] = [
+  {
+    id: "lychee-empress",
+    title: "Lychee Empress",
+    category: "Signature Cocktails",
+    url: "/gallery/lychee-empress.png",
+  },
+];

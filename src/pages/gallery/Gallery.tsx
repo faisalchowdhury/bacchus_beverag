@@ -9,9 +9,9 @@ export default function Gallery() {
   const [filter, setFilter] = useState("All");
   const [lightboxImg, setLightboxImg] = useState<{ url: string; title: string; category: string } | null>(null);
 
-  const categories = ["All", "Weddings", "Corporate", "Private Events"];
+  /** Derived from the images we actually have, so filters never show empty results. */
+  const categories = ["All", ...new Set(GALLERY_IMAGES.map((img) => img.category))];
 
-  /** Real venue and staff photography is pending — see utils/demoData.ts. */
   const hasImages = GALLERY_IMAGES.length > 0;
 
   const filteredImages = GALLERY_IMAGES.filter((img) => {
@@ -33,7 +33,8 @@ export default function Gallery() {
             Our Event <span className="gradient-text-gold font-serif">Visual Gallery</span>
           </h1>
           <p className="text-white/60 text-lg leading-relaxed max-w-3xl mx-auto font-light">
-            A look at the venue interiors, the bars in place, and the team behind them.
+            Our custom craft cocktails, the bars, and the spaces they live in. A full photoshoot of
+            the drinks, bar spaces and venue is underway — more to come shortly.
           </p>
         </div>
       </section>
@@ -92,7 +93,19 @@ export default function Gallery() {
       {hasImages && (
       <section className="py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Column count follows the number of photos, so a small set still
+              looks deliberate rather than like a half-empty grid. */}
+          <div
+            className={`grid gap-6 mx-auto ${
+              filteredImages.length === 1
+                ? "grid-cols-1 max-w-sm"
+                : filteredImages.length === 2
+                  ? "grid-cols-1 sm:grid-cols-2 max-w-2xl"
+                  : filteredImages.length === 3
+                    ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl"
+                    : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+            }`}
+          >
             {filteredImages.map((img) => (
               <div
                 key={img.id}
@@ -128,6 +141,12 @@ export default function Gallery() {
               </div>
             ))}
           </div>
+
+          {/* Photoshoot still in progress — say so rather than look thin. */}
+          <p className="text-center text-white/35 text-xs font-light leading-relaxed max-w-xl mx-auto mt-14">
+            A full photoshoot of our drinks, bar spaces and the venue is being scheduled. More
+            images will be added here as they come in.
+          </p>
         </div>
       </section>
       )}

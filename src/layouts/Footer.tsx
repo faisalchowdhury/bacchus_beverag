@@ -1,11 +1,6 @@
 import { Link } from "react-router";
-import { MapPin, ExternalLink } from "lucide-react";
-import {
-  HONEYBOOK_PORTAL_URL,
-  SOCIAL_LINKS,
-  VENUE_ADDRESS_LINES,
-  VENUE_NAME,
-} from "../config/business";
+import { MapPin } from "lucide-react";
+import { SOCIAL_LINKS, VENUE_ADDRESS_LINES, VENUE_NAME } from "../config/business";
 
 export default function Footer() {
   const quickLinks = [
@@ -81,8 +76,8 @@ export default function Footer() {
               Enquiries
             </h4>
             <p className="text-white/50 text-sm font-light leading-relaxed">
-              Start with a quote and we will receive it directly. To move forward or ask a question,
-              reach out to {VENUE_NAME} through your HoneyBook portal.
+              Start with a quote and we receive it directly. {VENUE_NAME} then sends you a HoneyBook
+              link to your own secure client portal for everything after that.
             </p>
             <div className="flex flex-col gap-3">
               <Link
@@ -91,16 +86,6 @@ export default function Footer() {
               >
                 Build a Quote
               </Link>
-              {HONEYBOOK_PORTAL_URL && (
-                <a
-                  href={HONEYBOOK_PORTAL_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 border border-white/15 rounded-full text-[10px] uppercase tracking-widest font-semibold text-white/70 hover:text-luxury-gold hover:border-luxury-gold/40 transition-all duration-300"
-                >
-                  HoneyBook Portal <ExternalLink size={11} />
-                </a>
-              )}
             </div>
           </div>
 

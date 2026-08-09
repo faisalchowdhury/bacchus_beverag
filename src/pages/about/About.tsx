@@ -31,17 +31,38 @@ export default function About() {
    *     IMG-20260804-WA0000.jpg → public/team/lauren-duppstadt.jpg
    *     IMG-20260804-WA0001.jpg → public/team/laura-leary.jpg
    */
-  const team: { name: string; role: string; bio?: string; img: string }[] = [
+  const team: {
+    name: string;
+    role: string;
+    bio: string;
+    highlights: string[];
+    img: string;
+  }[] = [
     {
       name: "Lauren Duppstadt",
       role: "Head Mixologist",
-      bio: "Lauren Duppstadt is a professional mixologist with eight years of experience specializing in bespoke cocktail creation, house-made infusions, shrubs, syrups, and culinary-inspired flavor development. As the Owner and Operator of Liquid Lore Spirits Lab, she designs custom cocktail experiences and beverage programs for weddings, private events, and hospitality venues, combining classic technique with modern creativity to craft drinks that are as memorable as the occasions they celebrate. With a background in high-volume hospitality, Lauren brings precision, consistency, and genuine warmth to every guest interaction. She believes exceptional hospitality extends far beyond what's in the glass—it's about creating an experience that feels personal, effortless, and unforgettable, leaving guests with memories that linger long after the final sip.",
+      // Condensed from Lauren's own bio at the client's request — highlights kept,
+      // her wording and voice preserved. Full original text is in the notes below.
+      bio: "Owner and Operator of Liquid Lore Spirits Lab, Lauren designs custom cocktail experiences and beverage programs for weddings, private events and hospitality venues — combining classic technique with modern creativity. She believes exceptional hospitality extends far beyond what's in the glass.",
+      highlights: [
+        "8 years experience",
+        "House-made infusions, shrubs & syrups",
+        "Culinary-inspired flavor development",
+        "High-volume hospitality background",
+      ],
       img: "/team/lauren-duppstadt.jpg",
     },
     {
       name: "Laura Leary",
       role: "Head Mixologist",
-      // Bio pending from Laura — the card renders without it until it arrives.
+      // Condensed from Laura's own bio at the client's request.
+      bio: "Laura specializes in beverage service for weddings, private parties, corporate events and festivals. Equally at home crafting classic cocktails or keeping service moving smoothly for hundreds of guests, her focus is always on outstanding customer service and helping make every event a success.",
+      highlights: [
+        "10+ years bartending",
+        "Weddings, corporate events & festivals",
+        "Thrives in fast-paced service",
+        "Friendly, professional presence",
+      ],
       img: "/team/laura-leary.jpg",
     },
   ];
@@ -92,7 +113,7 @@ export default function About() {
                 Bacchus Beverages was founded on a simple realization: while wedding venues, floral arrangements, and cuisine had ascended to unprecedented levels of artistic luxury, the event bar had remained static, pouring generic corporate mixers from standardized ice coolers.
               </p>
               <p className="text-white/60 text-sm sm:text-base leading-relaxed font-light">
-                We set out to dismantle the standard. Our head mixologists treat beverage planning as a craft — house-made infusions, shrubs and syrups, culinary-inspired flavour development, and genuine warmth across the bar. Paired with our vintage bar pieces and the permanent bar beside the ballroom, Bacchus makes the bar the sensory anchor of your celebration.
+                We set out to dismantle the standard. Our head mixologists treat beverage planning as a craft — house-made infusions, shrubs and syrups, culinary-inspired flavor development, and genuine warmth across the bar. Paired with our vintage bar pieces and the permanent bar beside the ballroom, Bacchus makes the bar the sensory anchor of your celebration.
               </p>
             </div>
 
@@ -177,15 +198,21 @@ export default function About() {
                     </span>
                   </div>
 
-                  {t.bio ? (
-                    <p className="text-white/50 text-xs sm:text-sm font-light leading-relaxed">
-                      {t.bio}
-                    </p>
-                  ) : (
-                    <p className="text-white/30 text-xs font-light leading-relaxed italic text-center">
-                      Full introduction coming shortly.
-                    </p>
-                  )}
+                  <p className="text-white/55 text-sm font-light leading-relaxed text-center mb-6">
+                    {t.bio}
+                  </p>
+
+                  {/* Highlights, pulled out so they scan at a glance. */}
+                  <div className="flex flex-wrap justify-center gap-2 mt-auto pt-5 border-t border-white/5">
+                    {t.highlights.map((highlight) => (
+                      <span
+                        key={highlight}
+                        className="px-3 py-1.5 rounded-full bg-luxury-charcoal/60 border border-luxury-gold/15 text-[10px] tracking-wide text-white/60 font-medium"
+                      >
+                        {highlight}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>

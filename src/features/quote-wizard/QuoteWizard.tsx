@@ -20,7 +20,8 @@ import {
   submitQuoteRequest,
   type QuoteDeliveryResult,
 } from "../../api/quote";
-import { HONEYBOOK_PORTAL_URL, VENUE_NAME } from "../../config/business";
+import { VENUE_NAME } from "../../config/business";
+import ClientCommunicationNotice from "../../components/ClientCommunicationNotice";
 import type {
   ChampagneSelection,
   HouseAccountScope,
@@ -33,7 +34,7 @@ import type {
 import {
   Calendar, MapPin, Users, GlassWater, Wine, Martini,
   Sparkles, Layers, Clock, User, ChevronRight, ChevronLeft, CheckCircle2,
-  Info, AlertTriangle, Wallet, Beer, ExternalLink, Loader2,
+  Info, AlertTriangle, Wallet, Beer, Loader2,
 } from "lucide-react";
 
 const STEPS = [
@@ -286,37 +287,15 @@ export default function QuoteWizard() {
             </p>
 
             {/* HoneyBook is the only channel — no email or phone is published. */}
-            <div className="rounded-2xl border border-luxury-gold/25 bg-luxury-gold/[0.06] p-6 text-left mb-8">
-              <div className="flex items-start gap-3">
-                <ExternalLink size={16} className="text-luxury-gold mt-0.5 flex-shrink-0" />
-                <div>
-                  <div className="font-serif text-lg font-bold mb-1">Ready to move forward?</div>
-                  <p className="text-xs text-white/60 leading-relaxed font-light">
-                    To book your date or ask any questions, reach out to {VENUE_NAME} through your{" "}
-                    <strong className="text-white/85">HoneyBook portal page</strong>. That is where
-                    contracts, payments and all event correspondence are handled.
-                  </p>
-                  {HONEYBOOK_PORTAL_URL && (
-                    <a
-                      href={HONEYBOOK_PORTAL_URL}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-2 mt-4 px-6 py-2.5 bg-luxury-gold text-luxury-black rounded-full font-semibold text-[11px] tracking-widest uppercase hover:bg-white transition-all duration-300"
-                    >
-                      Open HoneyBook Portal <ExternalLink size={12} />
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
+            <ClientCommunicationNotice variant="submitted" className="mb-8" />
 
             {!delivery?.delivered && (
               <div className="rounded-2xl border border-amber-500/20 bg-amber-500/[0.06] p-5 text-left mb-8 flex items-start gap-3">
                 <AlertTriangle size={14} className="text-amber-400 mt-0.5 flex-shrink-0" />
                 <p className="text-[11px] text-white/60 leading-relaxed font-light">
                   {delivery?.reason === "not-configured"
-                    ? "Automatic quote delivery is not switched on yet, so this quote has not been emailed. Please contact us through the HoneyBook portal above with your details."
-                    : "We could not deliver your quote automatically. Please reach out through the HoneyBook portal above and we will pick it up from there."}
+                    ? "Automatic quote delivery is not switched on yet, so this quote has not been emailed. Please save the summary below and follow the notice above to reach the venue."
+                    : "We could not deliver your quote automatically. Please save the summary below and follow the notice above so we can pick it up from there."}
                 </p>
               </div>
             )}
