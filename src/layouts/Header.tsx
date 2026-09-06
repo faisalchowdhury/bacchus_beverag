@@ -20,6 +20,26 @@ export default function Header() {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
+  // Lock the page behind the drawer so only the drawer scrolls.
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [mobileMenuOpen]);
+
+  // Escape closes the drawer — expected on tablets with keyboards.
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [mobileMenuOpen]);
+
   const navLinks = [
     { label: "Home", path: "/" },
     { label: "Services", path: "/services" },
@@ -52,13 +72,17 @@ export default function Header() {
               </span>
             </Link>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-5 xl:gap-8">
+            {/*
+              Desktop nav appears at xl, not lg: eight links plus the logo and
+              CTA cannot fit a 1024px bar without crowding, so tablets and
+              small laptops get the drawer instead.
+            */}
+            <nav className="hidden xl:flex items-center gap-5 2xl:gap-7">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`relative text-[11px] xl:text-sm tracking-widest uppercase font-medium whitespace-nowrap transition-colors duration-300 ${
+                  className={`relative text-[11px] 2xl:text-xs tracking-widest uppercase font-medium whitespace-nowrap transition-colors duration-300 ${
                     location.pathname === link.path
                       ? "text-luxury-gold font-semibold"
                       : "text-white/70 hover:text-luxury-gold"
@@ -73,7 +97,7 @@ export default function Header() {
             </nav>
 
             {/* CTA Button */}
-            <div className="hidden lg:flex items-center">
+            <div className="hidden xl:flex items-center">
               <Link
                 to="/quote"
                 className="group relative px-6 py-2.5 overflow-hidden rounded-full border border-luxury-gold text-xs tracking-widest uppercase font-semibold text-luxury-black transition-all duration-500 hover:text-white"
@@ -87,12 +111,14 @@ export default function Header() {
               </Link>
             </div>
 
-            {/* Mobile Menu Toggle */}
-            <div className="lg:hidden flex items-center">
+            {/* Mobile Menu Toggle — 44px hit area for touch */}
+            <div className="xl:hidden flex items-center">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 text-luxury-ivory hover:text-luxury-gold transition-colors focus:outline-none"
+                className="-mr-2 p-3 text-luxury-ivory hover:text-luxury-gold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-luxury-gold/60 rounded-lg"
                 aria-label="Toggle menu"
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-nav-drawer"
               >
                 {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
               </button>
@@ -103,26 +129,33 @@ export default function Header() {
 
       {/* Mobile Drawer Menu */}
       <div
-        className={`fixed inset-y-0 right-0 w-80 max-w-[85vw] bg-luxury-black/95 backdrop-blur-2xl border-l border-white/5 z-50 transform transition-transform duration-500 ease-out shadow-2xl lg:hidden ${
+        id="mobile-nav-drawer"
+        aria-hidden={!mobileMenuOpen}
+        className={`fixed inset-y-0 right-0 w-80 max-w-[85vw] bg-luxury-black/95 backdrop-blur-2xl border-l border-white/5 z-50 transform transition-transform duration-500 ease-out shadow-2xl xl:hidden ${
           mobileMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex flex-col h-full p-8 pt-24">
+        {/*
+          The drawer scrolls internally: eight links plus the CTA do not fit a
+          landscape phone or a 667px-tall handset, and a clipped CTA is the one
+          thing here that must never be unreachable.
+        */}
+        <div className="flex flex-col h-full overflow-y-auto overscroll-contain px-6 sm:px-8 pt-20 pb-8 safe-pb">
           <button
             onClick={() => setMobileMenuOpen(false)}
-            className="absolute top-6 right-6 p-2 text-white/75 hover:text-luxury-gold transition-colors focus:outline-none"
+            className="absolute top-4 right-4 p-3 text-white/75 hover:text-luxury-gold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-luxury-gold/60 rounded-lg"
             aria-label="Close menu"
           >
             <X size={22} />
           </button>
 
-          <nav className="flex flex-col gap-6">
+          <nav className="flex flex-col">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`text-xl tracking-widest uppercase font-medium transition-colors ${
+                className={`py-3 text-lg sm:text-xl tracking-widest uppercase font-medium transition-colors ${
                   location.pathname === link.path
                     ? "text-luxury-gold font-bold"
                     : "text-white/75 hover:text-luxury-gold"
@@ -153,7 +186,7 @@ export default function Header() {
       {mobileMenuOpen && (
         <div
           onClick={() => setMobileMenuOpen(false)}
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 xl:hidden"
         />
       )}
     </>

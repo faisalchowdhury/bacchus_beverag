@@ -1,6 +1,6 @@
 # Temporary backend folder (separate project with its own git/secrets)
 backend/
-
+dashboard/
 # Logs
 logs
 *.log

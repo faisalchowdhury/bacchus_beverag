@@ -79,22 +79,22 @@ export default function Packages() {
       <Header />
 
       {/* Page Header */}
-      <section className="relative pt-44 pb-20 overflow-hidden bg-gradient-to-b from-luxury-charcoal to-luxury-black border-b border-white/5">
+      <section className="relative pt-28 sm:pt-36 lg:pt-44 pb-14 sm:pb-20 overflow-hidden bg-gradient-to-b from-luxury-charcoal to-luxury-black border-b border-white/5">
         <div className="absolute inset-0 bg-gradient-radial from-luxury-gold/5 via-transparent to-transparent pointer-events-none" />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10 text-center">
           <span className="text-xs uppercase tracking-[0.4em] text-luxury-gold font-sans font-semibold mb-3 block">
             Bar Service Configurations
           </span>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-bold mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold mb-6">
             Packages & <span className="gradient-text-gold font-serif">Rates</span>
           </h1>
-          <p className="text-white/60 text-lg leading-relaxed max-w-3xl mx-auto font-light">
+          <p className="text-white/60 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto font-light">
             Choose a bar service style, then build your program from the published rate card below.
             Beverage rates are charged per guest, per hour of Open Bar service — no flat guesswork.
           </p>
           <Link
             to="/important-information"
-            className="inline-flex items-center gap-2 mt-8 px-5 py-2.5 rounded-full border border-luxury-gold/30 bg-luxury-gold/[0.06] text-[11px] uppercase tracking-widest font-semibold text-luxury-gold hover:bg-luxury-gold hover:text-luxury-black transition-all duration-300"
+            className="inline-flex items-center justify-center text-center gap-2 mt-8 px-5 py-2.5 rounded-full border border-luxury-gold/30 bg-luxury-gold/[0.06] text-[11px] uppercase tracking-widest font-semibold text-luxury-gold hover:bg-luxury-gold hover:text-luxury-black transition-all duration-300"
           >
             <Info size={13} /> How selections affect pricing & staffing
           </Link>
@@ -102,7 +102,7 @@ export default function Packages() {
       </section>
 
       {/* Service Styles */}
-      <section className="py-24">
+      <section className="py-16 sm:py-20 lg:py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {SERVICE_STYLES.map((style) => (
@@ -131,7 +131,7 @@ export default function Packages() {
                     {style.description}
                   </p>
 
-                  <div className="font-serif text-4xl sm:text-5xl font-bold text-luxury-gold mb-2">
+                  <div className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-luxury-gold mb-2">
                     {style.headline}
                   </div>
                   <p className="text-[11px] text-white/40 font-light mb-10 leading-relaxed">
@@ -173,13 +173,13 @@ export default function Packages() {
       </section>
 
       {/* Published Rate Card */}
-      <section className="pb-24">
+      <section className="pb-16 sm:pb-20 lg:pb-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-14">
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
             <span className="text-xs uppercase tracking-[0.3em] text-luxury-gold font-sans font-semibold mb-3 block">
               Transparent Pricing
             </span>
-            <h2 className="text-4xl sm:text-5xl font-serif font-bold">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold">
               The Published <span className="gradient-text-gold font-serif">Rate Card</span>
             </h2>
             <div className="h-[1px] w-24 bg-luxury-gold/30 mx-auto mt-6 mb-4" />
@@ -264,9 +264,9 @@ export default function Packages() {
       </section>
 
       {/* Trust Badges */}
-      <section className="py-20 bg-luxury-charcoal/50 border-y border-white/5">
+      <section className="py-14 sm:py-20 bg-luxury-charcoal/50 border-y border-white/5">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 sm:gap-12 text-center">
             <div className="flex flex-col items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-luxury-black flex items-center justify-center text-luxury-gold">
                 <ShieldCheck size={24} />
@@ -310,19 +310,19 @@ export default function Packages() {
       </section>
 
       {/* Customization Banner */}
-      <section className="py-24 text-center relative overflow-hidden bg-luxury-black">
+      <section className="py-16 sm:py-20 lg:py-24 text-center relative overflow-hidden bg-luxury-black">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold mb-6">
             Looking For Something <span className="gradient-text-gold font-serif">More Custom?</span>
           </h2>
-          <p className="text-white/60 text-lg leading-relaxed font-light max-w-2xl mx-auto mb-10">
+          <p className="text-white/60 text-base sm:text-lg leading-relaxed font-light max-w-2xl mx-auto mb-10">
             Specialty beer and wine orders, multi-station layouts, and spirit-free programs are all
             available. We make every reasonable effort to source requested products, and approved
             specialty orders are billed on your final invoice.
           </p>
           <Link
             to="/contact"
-            className="inline-flex items-center gap-2 px-10 py-4 bg-transparent border border-white/20 hover:border-luxury-gold hover:text-luxury-gold text-white font-semibold text-xs tracking-widest uppercase rounded-full transition-all duration-300"
+            className="inline-flex items-center justify-center text-center gap-2 w-full sm:w-auto px-6 sm:px-10 py-4 bg-transparent border border-white/20 hover:border-luxury-gold hover:text-luxury-gold text-white font-semibold text-xs tracking-widest uppercase rounded-full transition-all duration-300"
           >
             Inquire For Bespoke Creations
             <ArrowRight size={14} />

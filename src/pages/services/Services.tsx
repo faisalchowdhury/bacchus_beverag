@@ -72,29 +72,29 @@ export default function Services() {
       <Header />
 
       {/* Page Header */}
-      <section className="relative pt-44 pb-20 overflow-hidden bg-gradient-to-b from-luxury-charcoal to-luxury-black border-b border-white/5">
+      <section className="relative pt-28 sm:pt-36 lg:pt-44 pb-14 sm:pb-20 overflow-hidden bg-gradient-to-b from-luxury-charcoal to-luxury-black border-b border-white/5">
         <div className="absolute inset-0 bg-gradient-radial from-luxury-gold/5 via-transparent to-transparent pointer-events-none" />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10 text-center">
           <span className="text-xs uppercase tracking-[0.4em] text-luxury-gold font-sans font-semibold mb-3 block">
             The Collection of Experiences
           </span>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-bold mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold mb-6">
             Our Private <span className="gradient-text-gold font-serif">Bar Services</span>
           </h1>
-          <p className="text-white/60 text-lg leading-relaxed max-w-3xl mx-auto font-light">
+          <p className="text-white/60 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto font-light">
             We provide full-scale luxury hospitality for private celebrations, corporate galas, and extraordinary wedding receptions nationwide.
           </p>
         </div>
       </section>
 
       {/* Detailed Services Grids */}
-      <section className="py-24 lg:py-32">
+      <section className="py-16 sm:py-20 lg:py-32">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="space-y-32">
+          <div className="space-y-20 sm:space-y-28 lg:space-y-32">
             {serviceTypes.map((service, index) => (
               <div 
                 key={service.id}
-                className={`flex flex-col lg:flex-row items-center gap-16 ${
+                className={`flex flex-col lg:flex-row items-center gap-10 sm:gap-12 lg:gap-16 ${
                   index % 2 === 1 ? "lg:flex-row-reverse" : ""
                 }`}
               >
@@ -130,7 +130,7 @@ export default function Services() {
                   <div className="pt-4">
                     <Link
                       to="/quote"
-                      className="inline-flex items-center gap-2 px-8 py-3.5 bg-luxury-gold hover:bg-white text-luxury-black font-semibold text-xs tracking-widest uppercase rounded-full transition-all duration-300"
+                      className="inline-flex items-center justify-center text-center gap-2 w-full sm:w-auto px-6 sm:px-8 py-3.5 bg-luxury-gold hover:bg-white text-luxury-black font-semibold text-xs tracking-widest uppercase rounded-full transition-all duration-300"
                     >
                       Instant Cost Estimate
                       <ArrowRight size={14} />
@@ -156,9 +156,9 @@ export default function Services() {
       </section>
 
       {/* Extra Service Features */}
-      <section className="py-24 bg-luxury-charcoal border-y border-white/5 relative">
+      <section className="py-16 sm:py-20 lg:py-24 bg-luxury-charcoal border-y border-white/5 relative">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14 lg:mb-16">
             <span className="text-xs uppercase tracking-[0.3em] text-luxury-gold font-sans font-semibold mb-3 block">
               Operational Standards
             </span>
@@ -194,17 +194,17 @@ export default function Services() {
       </section>
 
       {/* Call to Action Banner */}
-      <section className="py-24 text-center relative overflow-hidden bg-luxury-black">
+      <section className="py-16 sm:py-20 lg:py-24 text-center relative overflow-hidden bg-luxury-black">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold mb-6">
             Tailor Your Perfect <span className="gradient-text-gold font-serif">Beverage Experience</span>
           </h2>
-          <p className="text-white/60 text-lg leading-relaxed font-light max-w-2xl mx-auto mb-10">
+          <p className="text-white/60 text-base sm:text-lg leading-relaxed font-light max-w-2xl mx-auto mb-10">
             Tell us about your estimated guest count, liquor tier preferences, and location. Build your bar program on our dynamic designer today.
           </p>
           <Link
             to="/quote"
-            className="inline-flex items-center gap-2 px-10 py-4.5 bg-luxury-gold text-luxury-black font-semibold text-xs tracking-widest uppercase rounded-full hover:bg-white transition-all duration-300 shadow-xl shadow-luxury-gold/15"
+            className="inline-flex items-center justify-center text-center gap-2 w-full sm:w-auto px-6 sm:px-10 py-4 bg-luxury-gold text-luxury-black font-semibold text-xs tracking-widest uppercase rounded-full hover:bg-white transition-all duration-300 shadow-xl shadow-luxury-gold/15"
           >
             Design Custom Program
             <ArrowRight size={14} />

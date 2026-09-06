@@ -105,7 +105,7 @@ const inputClass =
   "w-full bg-luxury-charcoal border border-white/10 rounded-xl px-4 py-3.5 focus:border-luxury-gold focus:ring-1 focus:ring-luxury-gold/20 outline-none transition-colors";
 
 const cardClass = (selected: boolean) =>
-  `p-6 text-left rounded-2xl border transition-all duration-300 ${
+  `p-5 sm:p-6 text-left rounded-2xl border transition-all duration-300 ${
     selected
       ? "bg-luxury-gold/10 border-luxury-gold shadow-lg shadow-luxury-gold/5"
       : "bg-luxury-charcoal/40 border-white/5 hover:border-white/20"
@@ -242,23 +242,23 @@ export default function QuoteWizard() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-luxury-black py-28 text-white">
+    <div className="w-full min-h-screen bg-luxury-black pt-28 sm:pt-32 lg:pt-36 pb-16 sm:pb-24 text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         {/* Page Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold mb-4">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif font-bold mb-4">
             Bespoke <span className="gradient-text-gold font-serif">Beverage Designer</span>
           </h1>
-          <p className="text-white/60 text-lg leading-relaxed font-light">
+          <p className="text-white/60 text-base sm:text-lg leading-relaxed font-light">
             Design your ideal event bar experience. Watch your itemized proposal update in real-time.
           </p>
         </div>
 
         {!isSubmitted && (
-          <div className="text-center mb-14">
+          <div className="text-center mb-10 sm:mb-14">
             <Link
               to="/important-information"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-luxury-gold/30 bg-luxury-gold/[0.06] text-[11px] uppercase tracking-widest font-semibold text-luxury-gold hover:bg-luxury-gold hover:text-luxury-black transition-all duration-300"
+              className="inline-flex items-center justify-center text-center gap-2 px-5 py-2.5 rounded-full border border-luxury-gold/30 bg-luxury-gold/[0.06] text-[11px] uppercase tracking-widest font-semibold text-luxury-gold hover:bg-luxury-gold hover:text-luxury-black transition-all duration-300"
             >
               <Info size={13} />
               Important Information — how selections affect pricing & staffing
@@ -270,7 +270,7 @@ export default function QuoteWizard() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="glass-card max-w-2xl mx-auto p-12 text-center rounded-[32px] border-luxury-gold/20"
+            className="glass-card max-w-2xl mx-auto p-6 sm:p-10 lg:p-12 text-center rounded-[32px] border-luxury-gold/20"
           >
             <div className="w-20 h-20 bg-luxury-gold/10 text-luxury-gold rounded-full flex items-center justify-center mx-auto mb-8">
               <CheckCircle2 size={44} />
@@ -278,16 +278,31 @@ export default function QuoteWizard() {
             <h2 className="text-3xl sm:text-4xl font-serif font-bold mb-4">
               {delivery?.delivered ? "Quote Received" : "Your Quote Is Ready"}
             </h2>
-            <p className="text-white/60 text-lg leading-relaxed font-light mb-8">
+            <p className="text-white/60 text-base sm:text-lg leading-relaxed font-light mb-8">
               Thank you,{" "}
               <span className="font-semibold text-white">{formValues.customerName}</span>.{" "}
               {delivery?.delivered
-                ? `A copy of this quote has been sent to ${VENUE_NAME} along with your contact details.`
+                ? delivery.emailSent
+                  ? `Your itemized estimate is on its way to ${formValues.customerEmail}, and a copy has gone to ${VENUE_NAME} with your contact details.`
+                  : `Your quote has reached ${VENUE_NAME} along with your contact details.`
                 : `Please save the summary below and share it with ${VENUE_NAME} to continue.`}
             </p>
 
             {/* HoneyBook is the only channel — no email or phone is published. */}
             <ClientCommunicationNotice variant="submitted" className="mb-8" />
+
+            {/* The quote arrived but the client's copy bounced — say so, rather
+                than let them wait for an email that is never coming. */}
+            {delivery?.delivered && !delivery.emailSent && (
+              <div className="rounded-2xl border border-amber-500/20 bg-amber-500/[0.06] p-5 text-left mb-8 flex items-start gap-3">
+                <AlertTriangle size={14} className="text-amber-400 mt-0.5 flex-shrink-0" />
+                <p className="text-[11px] text-white/60 leading-relaxed font-light">
+                  We have your quote, but we could not email your copy of the estimate.
+                  Please save the summary below — the venue has everything it needs and
+                  will still be in touch.
+                </p>
+              </div>
+            )}
 
             {!delivery?.delivered && (
               <div className="rounded-2xl border border-amber-500/20 bg-amber-500/[0.06] p-5 text-left mb-8 flex items-start gap-3">
@@ -295,7 +310,7 @@ export default function QuoteWizard() {
                 <p className="text-[11px] text-white/60 leading-relaxed font-light">
                   {delivery?.reason === "not-configured"
                     ? "Automatic quote delivery is not switched on yet, so this quote has not been emailed. Please save the summary below and follow the notice above to reach the venue."
-                    : "We could not deliver your quote automatically. Please save the summary below and follow the notice above so we can pick it up from there."}
+                    : `We could not deliver your quote automatically${delivery?.detail ? ` (${delivery.detail})` : ""}. Please save the summary below and follow the notice above so we can pick it up from there.`}
                 </p>
               </div>
             )}
@@ -348,16 +363,18 @@ export default function QuoteWizard() {
             </button>
           </motion.div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
             {/* ── Left: wizard ─────────────────────────────────────── */}
             <div className="lg:col-span-2 flex flex-col gap-8">
               {/* Progress */}
-              <div className="glass-card p-6 rounded-2xl border-white/5">
-                <div className="flex justify-between text-xs uppercase tracking-widest text-white/50 mb-3">
+              <div className="glass-card p-5 sm:p-6 rounded-2xl border-white/5">
+                {/* Stacks on narrow phones — "Step 1 of 11: Event Information"
+                    and the percentage cannot share a 320px row. */}
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-4 text-[11px] sm:text-xs uppercase tracking-widest text-white/50 mb-3">
                   <span>
                     Step {step} of {TOTAL_STEPS}: {STEPS[step - 1].title}
                   </span>
-                  <span className="text-luxury-gold font-semibold">
+                  <span className="text-luxury-gold font-semibold whitespace-nowrap">
                     {Math.round((step / TOTAL_STEPS) * 100)}% Complete
                   </span>
                 </div>
@@ -372,7 +389,7 @@ export default function QuoteWizard() {
 
               <form
                 onSubmit={handleSubmit(onFormSubmit)}
-                className="glass-card p-8 sm:p-12 rounded-[32px] border-white/5"
+                className="glass-card p-5 sm:p-8 lg:p-12 rounded-[32px] border-white/5"
               >
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -529,8 +546,8 @@ export default function QuoteWizard() {
                           </div>
                         </div>
 
-                        <div className="bg-luxury-charcoal/40 border border-white/5 rounded-2xl p-6 flex items-center justify-between gap-4">
-                          <div>
+                        <div className="bg-luxury-charcoal/40 border border-white/5 rounded-2xl p-5 sm:p-6 flex flex-wrap items-center justify-between gap-4">
+                          <div className="min-w-0 flex-1">
                             <div className="font-serif text-lg font-bold">
                               Bartenders Assigned Automatically
                             </div>
@@ -699,7 +716,7 @@ export default function QuoteWizard() {
                           subtitle="One permanent bar station is included in every package."
                         />
 
-                        <div className="bg-luxury-charcoal/30 rounded-2xl p-6 border border-white/5">
+                        <div className="bg-luxury-charcoal/30 rounded-2xl p-5 sm:p-6 border border-white/5">
                           <div className="flex items-start gap-3">
                             <CheckCircle2
                               size={16}
@@ -717,7 +734,7 @@ export default function QuoteWizard() {
                           </div>
                         </div>
 
-                        <div className="bg-luxury-charcoal/30 rounded-2xl p-8 border border-white/5 flex flex-col sm:flex-row justify-between items-center gap-6">
+                        <div className="bg-luxury-charcoal/30 rounded-2xl p-6 sm:p-8 border border-white/5 flex flex-col sm:flex-row justify-between items-center gap-6">
                           <div>
                             <div className="font-serif text-xl font-bold mb-1">
                               Additional Bar Locations
@@ -834,7 +851,7 @@ export default function QuoteWizard() {
                               })}
                             </div>
 
-                            <div className="bg-luxury-charcoal/50 p-6 rounded-2xl border border-white/5 space-y-4">
+                            <div className="bg-luxury-charcoal/50 p-5 sm:p-6 rounded-2xl border border-white/5 space-y-4">
                               <div className="flex justify-between items-baseline">
                                 <label className="text-xs uppercase tracking-widest text-white/50 font-medium">
                                   Open Bar Hours
@@ -865,7 +882,7 @@ export default function QuoteWizard() {
                             </div>
                           </>
                         ) : (
-                          <div className="rounded-2xl border border-white/5 bg-luxury-charcoal/40 p-8 text-center">
+                          <div className="rounded-2xl border border-white/5 bg-luxury-charcoal/40 p-6 sm:p-8 text-center">
                             <div className="w-12 h-12 rounded-full bg-white/5 text-white/40 flex items-center justify-center mx-auto mb-4">
                               <Wine size={20} />
                             </div>
@@ -880,7 +897,7 @@ export default function QuoteWizard() {
                           </div>
                         )}
 
-                        <div className="bg-luxury-charcoal/50 p-6 rounded-2xl border border-white/5 space-y-4">
+                        <div className="bg-luxury-charcoal/50 p-5 sm:p-6 rounded-2xl border border-white/5 space-y-4">
                           <div>
                             <label className="block text-xs uppercase tracking-widest text-white/50 mb-2 font-medium">
                               Specialty Beer or Wine Request (Optional)
@@ -1026,19 +1043,19 @@ export default function QuoteWizard() {
                               <motion.div
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="bg-luxury-charcoal/50 p-6 rounded-2xl border border-white/5 space-y-5"
+                                className="bg-luxury-charcoal/50 p-5 sm:p-6 rounded-2xl border border-white/5 space-y-5"
                               >
                                 <div>
                                   <label className="block text-xs uppercase tracking-widest text-white/50 mb-3 font-medium">
                                     How Many Signature Cocktails?
                                   </label>
-                                  <div className="flex gap-3">
+                                  <div className="grid grid-cols-4 gap-2 sm:gap-3">
                                     {[1, 2, 3, 4].map((n) => (
                                       <button
                                         key={n}
                                         type="button"
                                         onClick={() => setValue("signatureCocktailCount", n)}
-                                        className={`flex-1 py-3 rounded-xl border text-sm font-semibold transition-all duration-300 ${
+                                        className={`py-3 px-1 rounded-xl border text-sm font-semibold transition-all duration-300 ${
                                           cocktailCount === n
                                             ? "bg-luxury-gold text-luxury-black border-luxury-gold"
                                             : "bg-luxury-black border-white/10 text-white/60 hover:border-white/30"
@@ -1121,7 +1138,7 @@ export default function QuoteWizard() {
                             )}
                           </>
                         ) : (
-                          <div className="rounded-2xl border border-white/5 bg-luxury-charcoal/40 p-8 text-center">
+                          <div className="rounded-2xl border border-white/5 bg-luxury-charcoal/40 p-6 sm:p-8 text-center">
                             <div className="w-12 h-12 rounded-full bg-white/5 text-white/40 flex items-center justify-center mx-auto mb-4">
                               <Sparkles size={20} />
                             </div>
@@ -1153,7 +1170,7 @@ export default function QuoteWizard() {
                             formValues.champagneToast,
                           )}`}
                         >
-                          <div className="max-w-[70%] text-left">
+                          <div className="flex-1 min-w-0 text-left">
                             <div className="font-serif text-lg font-bold mb-1">
                               Add a Champagne Toast
                             </div>
@@ -1208,7 +1225,7 @@ export default function QuoteWizard() {
                               ))}
                             </div>
 
-                            <div className="bg-luxury-charcoal/50 p-6 rounded-2xl border border-white/5 grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div className="bg-luxury-charcoal/50 p-5 sm:p-6 rounded-2xl border border-white/5 grid grid-cols-1 sm:grid-cols-2 gap-5">
                               <div>
                                 <label className="block text-xs uppercase tracking-widest text-white/50 mb-2 font-medium">
                                   Guests Receiving Champagne
@@ -1291,7 +1308,7 @@ export default function QuoteWizard() {
                         />
 
                         {isConsumptionBar && (
-                          <div className="bg-luxury-charcoal/50 p-6 rounded-2xl border border-white/5 space-y-5">
+                          <div className="bg-luxury-charcoal/50 p-5 sm:p-6 rounded-2xl border border-white/5 space-y-5">
                             <div>
                               <label className="block text-xs uppercase tracking-widest text-white/50 mb-2 font-medium">
                                 Prepaid House Account
@@ -1355,7 +1372,7 @@ export default function QuoteWizard() {
                                 formValues.openTab,
                               )}`}
                             >
-                              <div className="max-w-[75%] text-left">
+                              <div className="flex-1 min-w-0 text-left">
                                 <div className="font-serif text-lg font-bold mb-1">
                                   Open a Tab for Guests
                                 </div>
@@ -1373,7 +1390,7 @@ export default function QuoteWizard() {
                               <motion.div
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="bg-luxury-charcoal/50 p-6 rounded-2xl border border-white/5 space-y-4"
+                                className="bg-luxury-charcoal/50 p-5 sm:p-6 rounded-2xl border border-white/5 space-y-4"
                               >
                                 <label className="block text-xs uppercase tracking-widest text-white/50 mb-2 font-medium">
                                   Tab Restrictions
@@ -1401,7 +1418,7 @@ export default function QuoteWizard() {
                         )}
 
                         {isOpenBar && (
-                          <div className="rounded-2xl border border-white/5 bg-luxury-charcoal/40 p-8 text-center">
+                          <div className="rounded-2xl border border-white/5 bg-luxury-charcoal/40 p-6 sm:p-8 text-center">
                             <div className="w-12 h-12 rounded-full bg-white/5 text-white/40 flex items-center justify-center mx-auto mb-4">
                               <Wallet size={20} />
                             </div>
@@ -1481,8 +1498,10 @@ export default function QuoteWizard() {
                           subtitle="Confirm the full itemized estimate before submitting."
                         />
 
-                        <div className="bg-luxury-charcoal/30 border border-white/5 rounded-2xl p-6">
-                          <div className="grid grid-cols-2 gap-y-3 text-sm font-light">
+                        <div className="bg-luxury-charcoal/30 border border-white/5 rounded-2xl p-5 sm:p-6">
+                          {/* One column on phones: label and value cannot both
+                              hold a readable line at 320px. */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 text-sm font-light">
                             {[
                               ["Event Type", formValues.eventType],
                               ["Event Date", formValues.eventDate || "—"],
@@ -1532,7 +1551,7 @@ export default function QuoteWizard() {
                             ].map(([label, value]) => (
                               <div key={label} className="contents">
                                 <span className="text-white/40">{label}:</span>
-                                <span className="text-right">{value}</span>
+                                <span className="sm:text-right break-words">{value}</span>
                               </div>
                             ))}
                           </div>
@@ -1548,10 +1567,10 @@ export default function QuoteWizard() {
                               return (
                                 <div
                                   key={i}
-                                  className="flex justify-between text-xs font-light border-b border-white/5 pb-2"
+                                  className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-4 text-xs font-light border-b border-white/5 pb-2"
                                 >
                                   <span>{c?.name?.trim() || `Cocktail #${i + 1} — unnamed`}</span>
-                                  <span className="text-white/40 text-right">
+                                  <span className="text-white/40 sm:text-right">
                                     {c?.liquors?.length ? c.liquors.join(" + ") : "No liquors chosen"}
                                   </span>
                                 </div>
@@ -1586,12 +1605,16 @@ export default function QuoteWizard() {
                   </motion.div>
                 </AnimatePresence>
 
-                {/* Navigation */}
-                <div className="flex justify-between items-center mt-12 pt-6 border-t border-white/5">
+                {/*
+                  Navigation. "Back" plus "Submit Quote Request" side by side
+                  overflows a 320px card, so the pair stacks below sm — submit
+                  first, since it is the action the step is asking for.
+                */}
+                <div className="flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center gap-3 mt-10 sm:mt-12 pt-6 border-t border-white/5">
                   <button
                     type="button"
                     onClick={handleBack}
-                    className={`flex items-center gap-1.5 px-6 py-3 rounded-full border border-white/10 hover:border-white/30 text-xs uppercase tracking-widest font-semibold transition-all duration-300 ${
+                    className={`flex items-center justify-center gap-1.5 w-full sm:w-auto px-6 py-3 rounded-full border border-white/10 hover:border-white/30 text-xs uppercase tracking-widest font-semibold transition-all duration-300 ${
                       step === 1 ? "opacity-30 cursor-not-allowed pointer-events-none" : ""
                     }`}
                   >
@@ -1602,7 +1625,7 @@ export default function QuoteWizard() {
                     <button
                       type="button"
                       onClick={handleNext}
-                      className="flex items-center gap-1.5 px-8 py-3 bg-luxury-gold hover:bg-white text-luxury-black font-semibold text-xs uppercase tracking-widest rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-luxury-gold/10"
+                      className="flex items-center justify-center gap-1.5 w-full sm:w-auto px-8 py-3 bg-luxury-gold hover:bg-white text-luxury-black font-semibold text-xs uppercase tracking-widest rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-luxury-gold/10"
                     >
                       Next <ChevronRight size={14} />
                     </button>
@@ -1610,7 +1633,7 @@ export default function QuoteWizard() {
                     <button
                       type="submit"
                       disabled={isSending}
-                      className="flex items-center gap-2 px-10 py-3.5 bg-gradient-to-r from-luxury-gold to-yellow-600 hover:from-white hover:to-white text-luxury-black font-bold text-xs uppercase tracking-widest rounded-full transition-all duration-300 hover:shadow-xl hover:shadow-luxury-gold/15 disabled:opacity-60 disabled:cursor-not-allowed"
+                      className="flex items-center justify-center text-center gap-2 w-full sm:w-auto px-6 sm:px-10 py-3.5 bg-gradient-to-r from-luxury-gold to-yellow-600 hover:from-white hover:to-white text-luxury-black font-bold text-xs uppercase tracking-widest rounded-full transition-all duration-300 hover:shadow-xl hover:shadow-luxury-gold/15 disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       {isSending ? (
                         <>
@@ -1626,7 +1649,7 @@ export default function QuoteWizard() {
             </div>
 
             {/* ── Right: live proposal ─────────────────────────────── */}
-            <div className="lg:col-span-1 lg:sticky lg:top-28">
+            <div className="lg:col-span-1 lg:sticky lg:top-[calc(var(--header-h-compact)+1.5rem)]">
               <div className="glass-card p-6 sm:p-8 rounded-[32px] border-white/5 flex flex-col relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-luxury-gold/5 rounded-full blur-3xl pointer-events-none" />
 

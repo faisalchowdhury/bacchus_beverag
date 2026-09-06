@@ -23,16 +23,16 @@ export default function Gallery() {
       <Header />
 
       {/* Page Header */}
-      <section className="relative pt-44 pb-20 overflow-hidden bg-gradient-to-b from-luxury-charcoal to-luxury-black border-b border-white/5">
+      <section className="relative pt-28 sm:pt-36 lg:pt-44 pb-14 sm:pb-20 overflow-hidden bg-gradient-to-b from-luxury-charcoal to-luxury-black border-b border-white/5">
         <div className="absolute inset-0 bg-gradient-radial from-luxury-gold/5 via-transparent to-transparent pointer-events-none" />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10 text-center">
           <span className="text-xs uppercase tracking-[0.4em] text-luxury-gold font-sans font-semibold mb-3 block">
             The Visual Portfolios
           </span>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-bold mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold mb-6">
             Our Event <span className="gradient-text-gold font-serif">Visual Gallery</span>
           </h1>
-          <p className="text-white/60 text-lg leading-relaxed max-w-3xl mx-auto font-light">
+          <p className="text-white/60 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto font-light">
             Our custom craft cocktails, the bars, and the spaces they live in. A full photoshoot of
             the drinks, bar spaces and venue is underway — more to come shortly.
           </p>
@@ -41,7 +41,7 @@ export default function Gallery() {
 
       {/* Category Filters — hidden until there is photography to filter */}
       {hasImages && (
-      <section className="py-8 bg-luxury-charcoal/30 border-b border-white/5 sticky top-[72px] lg:top-[88px] z-30 backdrop-blur-xl">
+      <section className="py-8 bg-luxury-charcoal/30 border-b border-white/5 sticky top-[var(--header-h-compact)] z-30 backdrop-blur-xl">
         <div className="container mx-auto px-4 text-center">
           <div className="inline-flex flex-wrap justify-center gap-2">
             {categories.map((cat) => (
@@ -64,9 +64,9 @@ export default function Gallery() {
 
       {/* Photography pending */}
       {!hasImages && (
-        <section className="py-28">
+        <section className="py-20 sm:py-28">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
-            <div className="glass-card rounded-[32px] border-luxury-gold/20 p-12 sm:p-16 text-center">
+            <div className="glass-card rounded-[32px] border-luxury-gold/20 p-8 sm:p-12 lg:p-16 text-center">
               <div className="w-20 h-20 rounded-full bg-luxury-gold/10 text-luxury-gold flex items-center justify-center mx-auto mb-8">
                 <Camera size={38} />
               </div>
@@ -80,7 +80,7 @@ export default function Gallery() {
               </p>
               <Link
                 to="/quote"
-                className="inline-flex items-center gap-2 px-10 py-4 bg-luxury-gold text-luxury-black font-semibold text-xs tracking-widest uppercase rounded-full hover:bg-white transition-all duration-300"
+                className="inline-flex items-center justify-center text-center gap-2 w-full sm:w-auto px-6 sm:px-10 py-4 bg-luxury-gold text-luxury-black font-semibold text-xs tracking-widest uppercase rounded-full hover:bg-white transition-all duration-300"
               >
                 Build Your Quote In The Meantime <ArrowRight size={14} />
               </Link>
@@ -91,7 +91,7 @@ export default function Gallery() {
 
       {/* Photo Grid Section */}
       {hasImages && (
-      <section className="py-24">
+      <section className="py-16 sm:py-20 lg:py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           {/* Column count follows the number of photos, so a small set still
               looks deliberate rather than like a half-empty grid. */}
@@ -153,20 +153,20 @@ export default function Gallery() {
 
       {/* Lightbox Modal */}
       {lightboxImg && (
-        <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 pt-20 sm:pt-4 overflow-y-auto">
           <button
             onClick={() => setLightboxImg(null)}
-            className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 text-white flex items-center justify-center transition-all focus:outline-none"
+            className="fixed top-4 right-4 sm:top-6 sm:right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all focus:outline-none z-10"
             aria-label="Close view"
           >
             <X size={20} />
           </button>
-          
-          <div className="max-w-4xl w-full flex flex-col items-center gap-6">
-            <div className="relative aspect-[4/3] max-h-[70vh] w-full rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
-              <img 
-                src={lightboxImg.url} 
-                alt={lightboxImg.title} 
+
+          <div className="max-w-4xl w-full flex flex-col items-center gap-6 my-auto">
+            <div className="relative aspect-[4/3] max-h-[60vh] sm:max-h-[70vh] w-full rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+              <img
+                src={lightboxImg.url}
+                alt={lightboxImg.title}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -183,17 +183,17 @@ export default function Gallery() {
       )}
 
       {/* Final CTA Section */}
-      <section className="py-24 text-center bg-luxury-charcoal/50 border-t border-white/5 relative overflow-hidden">
+      <section className="py-16 sm:py-20 lg:py-24 text-center bg-luxury-charcoal/50 border-t border-white/5 relative overflow-hidden">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold mb-6">
             Let's Style Your <span className="gradient-text-gold font-serif">Celebration Bar</span>
           </h2>
-          <p className="text-white/60 text-lg leading-relaxed font-light max-w-2xl mx-auto mb-10">
+          <p className="text-white/60 text-base sm:text-lg leading-relaxed font-light max-w-2xl mx-auto mb-10">
             Tell us about your theme, guest counts, and design layout. Plan your dynamic custom event quote today.
           </p>
           <Link
             to="/quote"
-            className="inline-flex items-center gap-2 px-10 py-4.5 bg-luxury-gold text-luxury-black font-semibold text-xs tracking-widest uppercase rounded-full hover:bg-white transition-all duration-300 shadow-xl shadow-luxury-gold/15"
+            className="inline-flex items-center justify-center text-center gap-2 w-full sm:w-auto px-6 sm:px-10 py-4 bg-luxury-gold text-luxury-black font-semibold text-xs tracking-widest uppercase rounded-full hover:bg-white transition-all duration-300 shadow-xl shadow-luxury-gold/15"
           >
             Instant Curation Wizard
             <ArrowRight size={14} />

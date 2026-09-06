@@ -32,57 +32,57 @@ const PrivacyPolicy: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#1e2332] pt-30">
+    <div className="min-h-screen bg-luxury-black text-luxury-ivory">
       <Header />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-4 sm:px-6 lg:px-8">
+      <section className="pt-28 sm:pt-36 lg:pt-44 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
-          <div className="text-center mb-12">
+          <div className="text-center mb-10 sm:mb-12">
             <div className="inline-block px-6 py-2 bg-accent/10 border border-accent/30 rounded-full text-sm font-semibold text-accent mb-6">
               {p.badge}
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6">
               {p.title} <span className="gradient-text">{p.titleAccent}</span>
             </h1>
-            <p className="text-lg text-[#6b7280] max-w-3xl mx-auto mb-4">
+            <p className="text-base sm:text-lg text-white/60 max-w-3xl mx-auto mb-4">
               {p.desc}
             </p>
-            <p className="text-sm text-[#9ca3af]">{p.lastUpdated}</p>
+            <p className="text-sm text-white/40">{p.lastUpdated}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 mb-10 sm:mb-16">
             <div className="section-card text-center">
               <div className="text-4xl mb-4">🔒</div>
               <h3 className="text-xl font-semibold mb-2">
                 {p.localStorageTitle}
               </h3>
-              <p className="text-sm text-[#6b7280]">{p.localStorageDesc}</p>
+              <p className="text-sm text-white/60">{p.localStorageDesc}</p>
             </div>
             <div className="section-card text-center">
               <div className="text-4xl mb-4">🚫</div>
               <h3 className="text-xl font-semibold mb-2">{p.noDataTitle}</h3>
-              <p className="text-sm text-[#6b7280]">{p.noDataDesc}</p>
+              <p className="text-sm text-white/60">{p.noDataDesc}</p>
             </div>
             <div className="section-card text-center">
               <div className="text-4xl mb-4">🛡️</div>
               <h3 className="text-xl font-semibold mb-2">
                 {p.fullControlTitle}
               </h3>
-              <p className="text-sm text-[#6b7280]">{p.fullControlDesc}</p>
+              <p className="text-sm text-white/60">{p.fullControlDesc}</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Content */}
-      <section className="pb-24 px-4 sm:px-6 lg:px-8">
+      <section className="pb-16 sm:pb-20 lg:pb-24 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8 items-start">
             {/* Sidebar TOC */}
             <div className="lg:col-span-1">
               <div className="table-of-contents">
-                <h3 className="text-xl font-bold mb-4 text-[#1e2332]">
+                <h3 className="text-xl font-bold mb-4 text-luxury-ivory">
                   {p.contentsTitle}
                 </h3>
                 <nav>
@@ -264,7 +264,7 @@ const PrivacyPolicy: React.FC = () => {
                   <h2>{p.s10Title}</h2>
                   <p>{p.s10p1}</p>
                   <div className="section-card mt-6 mb-6">
-                    <h3 className="text-lg font-semibold mb-4 text-[#00d4ff]">
+                    <h3 className="text-lg font-semibold mb-4 text-luxury-gold">
                       {p.contactInfoTitle}
                     </h3>
                     <p>

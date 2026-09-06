@@ -45,7 +45,7 @@ const StatsCounterSection: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="stats-counter-section py-24 lg:py-32 relative overflow-hidden bg-[#f5f8ff]"
+      className="stats-counter-section py-16 sm:py-20 lg:py-32 relative overflow-hidden bg-[#f5f8ff]"
     >
       <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl -translate-y-1/2"></div>
       <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl -translate-y-1/2"></div>

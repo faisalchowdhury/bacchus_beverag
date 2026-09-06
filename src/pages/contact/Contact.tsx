@@ -16,16 +16,16 @@ export default function Contact() {
       <Header />
 
       {/* Hero */}
-      <section className="relative pt-44 pb-20 overflow-hidden bg-gradient-to-b from-luxury-charcoal to-luxury-black border-b border-white/5">
+      <section className="relative pt-28 sm:pt-36 lg:pt-44 pb-14 sm:pb-20 overflow-hidden bg-gradient-to-b from-luxury-charcoal to-luxury-black border-b border-white/5">
         <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-luxury-gold/5 rounded-full blur-[100px] pointer-events-none" />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10 text-center">
           <span className="text-xs uppercase tracking-[0.4em] text-luxury-gold font-sans font-semibold mb-3 block">
             Enquiries & Booking
           </span>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-bold mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold mb-6">
             Get In <span className="gradient-text-gold font-serif">Touch</span>
           </h1>
-          <p className="text-white/60 text-lg leading-relaxed max-w-2xl mx-auto font-light">
+          <p className="text-white/60 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto font-light">
             Start with a quote — it takes a few minutes and gives you a fully itemized estimate.
             Everything after that is handled through your {VENUE_NAME} HoneyBook portal.
           </p>
@@ -33,11 +33,11 @@ export default function Contact() {
       </section>
 
       {/* How to reach us */}
-      <section className="py-24">
+      <section className="py-16 sm:py-20 lg:py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Step 1 — build a quote */}
-            <div className="glass-card rounded-[32px] border-white/5 p-9 flex flex-col">
+            <div className="glass-card rounded-[32px] border-white/5 p-6 sm:p-9 flex flex-col">
               <div className="w-12 h-12 rounded-2xl bg-luxury-gold/10 text-luxury-gold flex items-center justify-center mb-6">
                 <Calculator size={22} />
               </div>
@@ -59,7 +59,7 @@ export default function Contact() {
             </div>
 
             {/* Step 2 — continue in HoneyBook (no general link exists to offer) */}
-            <div className="glass-card rounded-[32px] border-luxury-gold/25 p-9 flex flex-col">
+            <div className="glass-card rounded-[32px] border-luxury-gold/25 p-6 sm:p-9 flex flex-col">
               <div className="w-12 h-12 rounded-2xl bg-luxury-gold/10 text-luxury-gold flex items-center justify-center mb-6">
                 <MessageSquare size={22} />
               </div>
@@ -72,7 +72,7 @@ export default function Contact() {
           </div>
 
           {/* What happens next */}
-          <div className="glass-card rounded-[32px] border-white/5 p-9 sm:p-11 mt-8">
+          <div className="glass-card rounded-[32px] border-white/5 p-6 sm:p-9 lg:p-11 mt-8">
             <div className="flex items-center gap-3 mb-7">
               <div className="w-10 h-10 rounded-xl bg-luxury-gold/10 text-luxury-gold flex items-center justify-center flex-shrink-0">
                 <ClipboardList size={19} />
@@ -100,7 +100,7 @@ export default function Contact() {
 
           {/* Socials — only rendered once accounts exist */}
           {SOCIAL_LINKS.length > 0 && (
-            <div className="glass-card rounded-[32px] border-white/5 p-9 mt-8 text-center">
+            <div className="glass-card rounded-[32px] border-white/5 p-6 sm:p-9 mt-8 text-center">
               <h3 className="font-serif text-xl font-bold mb-6">Follow Along</h3>
               <div className="flex items-center justify-center gap-4">
                 {SOCIAL_LINKS.map((social) => (

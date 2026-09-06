@@ -23,15 +23,91 @@
   --color-luxury-champagne: #e8dcc0;
   --color-luxury-ivory: #faf8f5;
   --color-luxury-cream: #f3eee3;
+
+  /* Alias used by the legal pages (Terms / Privacy). */
+  --color-accent: #c5a66b;
+}
+
+/*
+ * Live header height. The header shrinks on scroll (py-6 → py-4), so anything
+ * that sticks beneath it (filter bars) or scrolls to an anchor uses the
+ * *compact* value — by the time either matters, the page is already scrolled.
+ */
+:root {
+  --header-h: 88px;
+  --header-h-compact: 72px;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --header-h: 92px;
+    --header-h-compact: 76px;
+  }
 }
 
 @layer base {
+  html {
+    /* Anchor jumps must clear the fixed header on every screen size. */
+    scroll-padding-top: calc(var(--header-h-compact) + 1rem);
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
   body {
     @apply font-sans bg-luxury-black text-luxury-ivory antialiased selection:bg-luxury-gold/30 selection:text-white;
+    /* Decorative blur orbs are absolutely positioned and intentionally
+       oversized; this stops any stray one from creating a sideways scroll. */
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif tracking-wide;
+    /* Long single words (venue names, cocktail names) must never push the
+       layout wider than the viewport on a 320px phone. */
+    overflow-wrap: break-word;
+  }
+
+  /*
+   * iOS Safari zooms the whole page when a focused control renders below 16px.
+   * Enforce the floor on touch/small screens only, so desktop keeps its
+   * intentionally small UI type.
+   */
+  @media (max-width: 767px) {
+    input,
+    select,
+    textarea {
+      font-size: max(16px, 1em);
+    }
+  }
+
+  /* Media should shrink with its container rather than force overflow. */
+  img,
+  video,
+  svg,
+  canvas {
+    max-width: 100%;
+  }
+
+  img,
+  video {
+    height: auto;
+  }
+}
+
+/* Respect the OS "reduce motion" setting on every device. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
@@ -66,6 +142,199 @@
 
 .glass-card-hover {
   @apply transition-all duration-500 hover:border-luxury-gold/30 hover:bg-luxury-charcoal/80 hover:shadow-[0_8px_30px_rgb(197,166,107,0.05)];
+}
+
+/* =============================================================
+   Legal pages (Terms / Privacy)
+   These templates reference a component vocabulary that had no
+   definitions, so both pages rendered as unstyled text. Defined here
+   in the site's dark theme and scaled for every breakpoint.
+   ============================================================= */
+
+.section-card {
+  background: rgba(20, 20, 22, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  padding: clamp(1.25rem, 4vw, 2.75rem);
+}
+
+.table-of-contents {
+  background: rgba(20, 20, 22, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  padding: clamp(1.25rem, 3vw, 1.5rem);
+}
+
+@media (min-width: 1024px) {
+  .table-of-contents {
+    position: sticky;
+    top: calc(var(--header-h-compact) + 1.5rem);
+    /* Long contents lists must scroll inside the sidebar rather than
+       run past the bottom of a short laptop screen. */
+    max-height: calc(100vh - var(--header-h-compact) - 3rem);
+    overflow-y: auto;
+  }
+}
+
+.toc-link {
+  display: block;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+}
+
+.toc-link:hover {
+  color: #faf8f5;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.toc-link-active {
+  background: rgba(197, 166, 107, 0.1);
+  color: #c5a66b;
+  font-weight: 500;
+}
+
+.terms-section,
+.policy-section {
+  padding-bottom: clamp(1.75rem, 4vw, 2.5rem);
+  margin-bottom: clamp(1.75rem, 4vw, 2.5rem);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  scroll-margin-top: calc(var(--header-h-compact) + 1.5rem);
+}
+
+.terms-section:last-child,
+.policy-section:last-child {
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.terms-section h2,
+.policy-section h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 4.5vw, 2rem);
+  font-weight: 700;
+  color: #faf8f5;
+  margin-bottom: 1rem;
+  line-height: 1.25;
+}
+
+.terms-section h3,
+.policy-section h3 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.125rem, 3vw, 1.25rem);
+  font-weight: 700;
+  color: rgba(250, 248, 245, 0.85);
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.terms-section p,
+.policy-section p {
+  font-size: clamp(0.875rem, 2.4vw, 0.95rem);
+  font-weight: 300;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1rem;
+}
+
+.terms-section ul,
+.policy-section ul {
+  margin: 0 0 1.25rem;
+  padding-left: 1.25rem;
+  list-style: none;
+}
+
+.terms-section li,
+.policy-section li {
+  position: relative;
+  font-size: clamp(0.875rem, 2.4vw, 0.95rem);
+  font-weight: 300;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.625rem;
+}
+
+.terms-section li::before,
+.policy-section li::before {
+  content: "";
+  position: absolute;
+  left: -1rem;
+  top: 0.7em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #c5a66b;
+}
+
+.terms-section strong,
+.policy-section strong,
+.highlight-box strong,
+.warning-box strong {
+  color: rgba(250, 248, 245, 0.9);
+  font-weight: 600;
+}
+
+.terms-section a,
+.policy-section a {
+  color: #c5a66b;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  /* URLs and email addresses must not widen the page on a 320px phone. */
+  overflow-wrap: anywhere;
+}
+
+.highlight-box,
+.warning-box {
+  border-radius: 1rem;
+  padding: clamp(1rem, 3vw, 1.25rem);
+  margin: 1.25rem 0;
+}
+
+.highlight-box {
+  background: rgba(197, 166, 107, 0.06);
+  border: 1px solid rgba(197, 166, 107, 0.2);
+}
+
+.warning-box {
+  background: rgba(245, 158, 11, 0.06);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.highlight-box p:last-child,
+.warning-box p:last-child {
+  margin-bottom: 0;
+}
+
+/* Matches the gold wash used across the marketing pages. */
+.gradient-text {
+  background: linear-gradient(135deg, #faf8f5 0%, #e8dcc0 50%, #c5a66b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+/* Horizontal chip/filter strips: swipeable, without a visible scrollbar. */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Clears the home indicator on gesture-nav phones; a no-op elsewhere. */
+.safe-pb {
+  padding-bottom: max(2rem, env(safe-area-inset-bottom));
 }
 
 /* Custom Scrollbar */

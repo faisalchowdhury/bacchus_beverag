@@ -63,8 +63,13 @@ export default function LandingPage() {
     <div className="bg-luxury-black text-luxury-ivory overflow-x-hidden">
       <Header />
 
-      {/* 1. Cinematic Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden">
+      {/*
+        1. Cinematic Hero Section
+        100svh, not 100vh — on mobile browsers the collapsing URL bar makes
+        100vh taller than the visible viewport, which pushed the CTAs and the
+        scroll cue off-screen on first paint.
+      */}
+      <section className="relative min-h-[100svh] flex items-center justify-center pt-32 pb-24 sm:pb-20 overflow-hidden">
         {/* Background Image Placeholder with Dark Cinematic Overlay */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105 animate-[zoom-slow_20s_infinite_alternate]"
@@ -83,16 +88,18 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
-            className="space-y-8"
+            className="space-y-5 sm:space-y-8"
           >
-            <span className="text-xs uppercase tracking-[0.4em] text-luxury-gold font-sans font-semibold">
+            <span className="block text-[10px] sm:text-xs uppercase tracking-[0.3em] sm:tracking-[0.4em] text-luxury-gold font-sans font-semibold">
               The Fine Art of Hospitality
             </span>
-            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-serif font-bold tracking-wide leading-tight max-w-5xl mx-auto">
-              Pouring Elegance For <br />
+            {/* The line break is a desktop typesetting choice — on a phone it
+                would strand a single word, so let the text wrap naturally. */}
+            <h1 className="text-[2.15rem] leading-[1.15] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif font-bold tracking-wide sm:leading-tight max-w-5xl mx-auto">
+              Pouring Elegance For <br className="hidden sm:inline" />
               <span className="gradient-text-gold font-serif">Your Most Cherished</span> Moments
             </h1>
-            <p className="text-white/70 text-lg sm:text-xl font-light max-w-2xl mx-auto leading-relaxed">
+            <p className="text-white/70 text-base sm:text-lg lg:text-xl font-light max-w-2xl mx-auto leading-relaxed">
               Michelin-caliber event bartending, custom mixology, and top-shelf beverage programs designed exclusively for luxury weddings and private galas.
             </p>
 
@@ -114,8 +121,9 @@ export default function LandingPage() {
           </motion.div>
         </div>
 
-        {/* Animated scroll down indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/40 flex flex-col items-center gap-1">
+        {/* Animated scroll down indicator — suppressed on short viewports
+            (landscape phones) where it would collide with the CTAs. */}
+        <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 text-white/40 hidden min-[420px]:flex flex-col items-center gap-1 [@media(max-height:600px)]:hidden">
           <span className="text-[10px] tracking-[0.25em] uppercase font-medium">Scroll</span>
           <motion.div 
             animate={{ y: [0, 6, 0] }}
@@ -127,13 +135,13 @@ export default function LandingPage() {
       </section>
 
       {/* 2. Featured Services Section */}
-      <section className="py-24 lg:py-32 bg-luxury-black relative">
+      <section className="py-16 sm:py-20 lg:py-32 bg-luxury-black relative">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-20">
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 lg:mb-20">
             <span className="text-xs uppercase tracking-[0.3em] text-luxury-gold font-sans font-semibold mb-3 block">
               Curated Offerings
             </span>
-            <h2 className="text-4xl sm:text-5xl font-serif font-bold">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold">
               Impeccable <span className="gradient-text-gold font-serif">Bar Services</span>
             </h2>
             <div className="h-[1px] w-24 bg-luxury-gold/30 mx-auto mt-6 mb-4" />
@@ -146,7 +154,7 @@ export default function LandingPage() {
             {featuredServices.map((service, index) => (
               <div
                 key={index}
-                className="glass-card glass-card-hover p-8 rounded-3xl flex flex-col justify-between"
+                className="glass-card glass-card-hover p-6 sm:p-8 rounded-3xl flex flex-col justify-between"
               >
                 <div>
                   <div className="text-4xl mb-6">{service.icon}</div>
@@ -170,15 +178,15 @@ export default function LandingPage() {
       </section>
 
       {/* 3. "Why Choose Bacchus" Section */}
-      <section className="py-24 bg-luxury-charcoal relative border-y border-white/5">
+      <section className="py-16 sm:py-20 lg:py-24 bg-luxury-charcoal relative border-y border-white/5">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center">
             <div className="space-y-8">
               <span className="text-xs uppercase tracking-[0.3em] text-luxury-gold font-sans font-semibold block">
                 The Bacchus Standard
               </span>
-              <h2 className="text-4xl sm:text-5xl font-serif font-semibold leading-tight">
-                Crafting Fluid Luxury <br />
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-semibold leading-tight">
+                Crafting Fluid Luxury <br className="hidden sm:inline" />
                 With <span className="gradient-text-gold font-serif">Uncompromised Precision</span>
               </h2>
               <p className="text-white/60 text-base font-light leading-relaxed">
@@ -244,13 +252,13 @@ export default function LandingPage() {
       </section>
 
       {/* 4. Wedding Packages Preview */}
-      <section className="py-24 lg:py-32 bg-luxury-black relative">
+      <section className="py-16 sm:py-20 lg:py-32 bg-luxury-black relative">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-20">
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 lg:mb-20">
             <span className="text-xs uppercase tracking-[0.3em] text-luxury-gold font-sans font-semibold mb-3 block">
               Event Curation
             </span>
-            <h2 className="text-4xl sm:text-5xl font-serif font-bold">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold">
               Bar <span className="gradient-text-gold font-serif">Service Styles</span>
             </h2>
             <div className="h-[1px] w-24 bg-luxury-gold/30 mx-auto mt-6 mb-4" />
@@ -285,7 +293,7 @@ export default function LandingPage() {
                   <p className="text-white/40 text-xs font-light mb-6 leading-relaxed">
                     {style.description}
                   </p>
-                  <div className="font-serif text-4xl sm:text-5xl font-bold text-luxury-gold mb-2">
+                  <div className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-luxury-gold mb-2">
                     {style.headline}
                   </div>
                   <p className="text-[11px] text-white/40 font-light mb-8 leading-relaxed">
@@ -319,7 +327,7 @@ export default function LandingPage() {
           <div className="text-center mt-14">
             <Link
               to="/important-information"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-luxury-gold/30 bg-luxury-gold/[0.06] text-[11px] uppercase tracking-widest font-semibold text-luxury-gold hover:bg-luxury-gold hover:text-luxury-black transition-all duration-300"
+              className="inline-flex items-center justify-center text-center gap-2 px-5 sm:px-6 py-3 rounded-full border border-luxury-gold/30 bg-luxury-gold/[0.06] text-[11px] uppercase tracking-widest font-semibold text-luxury-gold hover:bg-luxury-gold hover:text-luxury-black transition-all duration-300"
             >
               Important Information — how selections affect pricing & staffing
             </Link>
@@ -328,13 +336,13 @@ export default function LandingPage() {
       </section>
 
       {/* 5. Testimonials Carousel Section */}
-      <section className="py-24 bg-luxury-charcoal border-y border-white/5 relative">
+      <section className="py-16 sm:py-20 lg:py-24 bg-luxury-charcoal border-y border-white/5 relative">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14 lg:mb-16">
             <span className="text-xs uppercase tracking-[0.3em] text-luxury-gold font-sans font-semibold mb-3 block">
               Praise & Stories
             </span>
-            <h2 className="text-4xl font-serif font-bold">
+            <h2 className="text-3xl sm:text-4xl font-serif font-bold">
               Loved By <span className="gradient-text-gold font-serif">Hosts & Guests</span>
             </h2>
           </div>
@@ -343,7 +351,7 @@ export default function LandingPage() {
             {TESTIMONIALS.map((t) => (
               <div
                 key={t.id}
-                className="glass-card p-8 rounded-3xl flex flex-col justify-between border-white/5"
+                className="glass-card p-6 sm:p-8 rounded-3xl flex flex-col justify-between border-white/5"
               >
                 <div>
                   <div className="flex gap-1 mb-6">
@@ -359,7 +367,7 @@ export default function LandingPage() {
                   <h4 className="font-serif text-base font-bold text-luxury-ivory">
                     {t.name}
                   </h4>
-                  <div className="flex justify-between text-[11px] text-white/40 uppercase tracking-widest mt-1">
+                  <div className="flex flex-wrap justify-between gap-x-3 gap-y-1 text-[11px] text-white/40 uppercase tracking-widest mt-1">
                     <span>{t.role}</span>
                     <span>{t.eventDate}</span>
                   </div>
@@ -372,14 +380,14 @@ export default function LandingPage() {
 
       {/* 6. Photo Gallery Preview Grid — hidden until real photography lands */}
       {GALLERY_IMAGES.length > 0 && (
-      <section className="py-24 lg:py-32 bg-luxury-black relative">
+      <section className="py-16 sm:py-20 lg:py-32 bg-luxury-black relative">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="flex flex-col sm:flex-row justify-between items-end gap-6 mb-16">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 mb-16">
             <div>
               <span className="text-xs uppercase tracking-[0.3em] text-luxury-gold font-sans font-semibold mb-3 block">
                 Visual Portfolios
               </span>
-              <h2 className="text-4xl font-serif font-bold">
+              <h2 className="text-3xl sm:text-4xl font-serif font-bold">
                 Candid <span className="gradient-text-gold font-serif">Celebrations</span>
               </h2>
             </div>
@@ -415,9 +423,9 @@ export default function LandingPage() {
       )}
 
       {/* 7. Animated Stats Section */}
-      <section className="py-20 bg-luxury-charcoal/50 border-y border-white/5 relative">
+      <section className="py-14 sm:py-20 bg-luxury-charcoal/50 border-y border-white/5 relative">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 sm:gap-12 text-center">
             <div className="space-y-2">
               <div className="text-5xl sm:text-6xl font-serif font-bold text-luxury-gold">
                 {eventsCount}+
@@ -441,13 +449,13 @@ export default function LandingPage() {
       </section>
 
       {/* 8. FAQ Accordion Section */}
-      <section className="py-24 lg:py-32 bg-luxury-black relative">
+      <section className="py-16 sm:py-20 lg:py-32 bg-luxury-black relative">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           <div className="text-center mb-16">
             <span className="text-xs uppercase tracking-[0.3em] text-luxury-gold font-sans font-semibold mb-3 block">
               Common Questions
             </span>
-            <h2 className="text-4xl font-serif font-bold">
+            <h2 className="text-3xl sm:text-4xl font-serif font-bold">
               The Fine <span className="gradient-text-gold font-serif">Print details</span>
             </h2>
           </div>
@@ -486,21 +494,21 @@ export default function LandingPage() {
       </section>
 
       {/* 9. Final CTA Banner */}
-      <section className="py-24 lg:py-32 bg-gradient-to-tr from-luxury-black via-luxury-charcoal to-luxury-black border-t border-white/5 relative overflow-hidden">
+      <section className="py-16 sm:py-20 lg:py-32 bg-gradient-to-tr from-luxury-black via-luxury-charcoal to-luxury-black border-t border-white/5 relative overflow-hidden">
         {/* Glow backdrop */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-luxury-gold/5 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10 text-center">
-          <h2 className="text-4xl sm:text-5xl font-serif font-bold mb-6">
-            Are You Ready To Pour <br />
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold mb-6">
+            Are You Ready To Pour <br className="hidden sm:inline" />
             <span className="gradient-text-gold font-serif">An Unforgettable Event?</span>
           </h2>
-          <p className="text-white/60 text-lg leading-relaxed font-light max-w-2xl mx-auto mb-10">
+          <p className="text-white/60 text-base sm:text-lg leading-relaxed font-light max-w-2xl mx-auto mb-10">
             Tell us about your wedding reception or corporate gala. Run your estimated guest counts through our designer and get an instant cost breakdowns.
           </p>
           <Link
             to="/quote"
-            className="inline-flex items-center gap-2 px-10 py-4.5 bg-luxury-gold text-luxury-black font-semibold text-xs tracking-widest uppercase rounded-full hover:bg-white transition-all duration-300 shadow-xl shadow-luxury-gold/15"
+            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 sm:px-10 py-4 bg-luxury-gold text-luxury-black font-semibold text-[11px] sm:text-xs tracking-widest uppercase rounded-full hover:bg-white transition-all duration-300 shadow-xl shadow-luxury-gold/15"
           >
             Design Your Custom Bar Program
             <ArrowRight size={14} />

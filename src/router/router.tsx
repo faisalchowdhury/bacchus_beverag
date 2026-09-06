@@ -11,6 +11,7 @@ import About from "../pages/about/About.tsx";
 import Contact from "../pages/contact/Contact.tsx";
 import PrivacyPolicy from "../pages/privacy/privacy.tsx";
 import Terms from "../pages/terms/Terms.tsx";
+import AcceptQuote from "../pages/acceptQuote/AcceptQuote.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -56,5 +57,13 @@ export const router = createBrowserRouter([
   {
     path: "/terms",
     element: <Terms />,
+  },
+  /*
+   * Where the "Accept This Quote" button in a client's estimate email lands.
+   * The token is the only credential, so this route is public by design.
+   */
+  {
+    path: "/accept-quote/:token",
+    element: <AcceptQuote />,
   },
 ]);

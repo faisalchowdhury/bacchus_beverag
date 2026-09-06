@@ -23,7 +23,7 @@ export default function FeaturesSection() {
   return (
     <section
       id="features"
-      className="py-24 lg:py-32 bg-[#f5f8ff] relative overflow-hidden"
+      className="py-16 sm:py-20 lg:py-32 bg-[#f5f8ff] relative overflow-hidden"
     >
       <div className="absolute top-20 right-10 w-72 h-72 bg-accent/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-20 left-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl"></div>

@@ -14,12 +14,12 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative bg-luxury-black border-t border-white/5 py-20 overflow-hidden text-white">
+    <footer className="relative bg-luxury-black border-t border-white/5 py-14 sm:py-20 overflow-hidden text-white">
       {/* Decorative Gold Radial Glow */}
       <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-luxury-gold/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-12 lg:gap-16 mb-12 sm:mb-16">
           {/* Brand & Editorial Copy */}
           <div className="flex flex-col gap-6 lg:col-span-1">
             <Link to="/" className="flex flex-col">

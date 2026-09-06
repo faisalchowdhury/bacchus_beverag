@@ -1,20 +1,26 @@
+import axios from "axios";
+import api from "./axiosInstance";
 import type { QuoteBreakdown, QuoteFormValues } from "../types";
 
 /**
  * Quote delivery.
  *
- * When a client submits the wizard, the owner needs a notification plus a full
- * copy of the quote so they can look the client up in HoneyBook. The browser
- * cannot send email, so the payload is POSTed to an endpoint that does.
+ * The wizard POSTs the client's selections to the backend, which recalculates
+ * the estimate from its own copy of the rate card, stores the submission, and
+ * emails two copies: the itemised estimate to the client, and the full
+ * submission to the venue.
  *
- * ⚠ TODO(client): set VITE_QUOTE_ENDPOINT to that endpoint.
- *   Until it is set, `submitQuoteRequest` reports `delivered: false` and the UI
- *   tells the client to reach out through the HoneyBook portal instead. It
- *   never claims a quote was sent when it was not.
+ * The backend is the authority on price — the breakdown sent from here is
+ * recorded for comparison but never used to bill. If the two ever disagree the
+ * server logs it and the server figure wins.
+ *
+ * Point VITE_BACKEND_BASE at the API origin (defaults to https://faisal6001.ssh.bd/ in dev).
  */
-const QUOTE_ENDPOINT = import.meta.env.VITE_QUOTE_ENDPOINT ?? "";
+const QUOTE_PATH = "/api/v1/quote";
 
-export const isQuoteDeliveryConfigured = () => QUOTE_ENDPOINT.length > 0;
+/** Kept for the UI, which distinguishes "not switched on" from "it failed". */
+export const isQuoteDeliveryConfigured = () =>
+  Boolean(import.meta.env.VITE_BACKEND_BASE) || import.meta.env.DEV;
 
 /** Everything the owner needs in the notification email. */
 export interface QuoteSubmission {
@@ -63,38 +69,60 @@ export function buildQuoteSubmission(
 }
 
 export type QuoteDeliveryResult =
-  | { delivered: true }
+  | {
+      delivered: true;
+      /** False when the quote reached us but the estimate email bounced. */
+      emailSent: boolean;
+      quoteId?: string;
+      /** The server's authoritative total, if it differs from ours. */
+      grandTotal?: number;
+    }
   | { delivered: false; reason: "not-configured" | "failed"; detail?: string };
+
+interface QuoteResponseData {
+  quoteId?: string;
+  clientEmailSent?: boolean;
+  ownerEmailSent?: boolean;
+  grandTotal?: number;
+}
 
 export async function submitQuoteRequest(
   submission: QuoteSubmission,
 ): Promise<QuoteDeliveryResult> {
   if (!isQuoteDeliveryConfigured()) {
-    // Log it so nothing is lost during development, but never report success.
-    console.warn("VITE_QUOTE_ENDPOINT is not set — quote was not delivered.", submission);
+    // Log it so nothing is lost, but never report success.
+    console.warn(
+      "VITE_BACKEND_BASE is not set — quote was not delivered.",
+      submission,
+    );
     return { delivered: false, reason: "not-configured" };
   }
 
   try {
-    const response = await fetch(QUOTE_ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(submission),
-    });
+    const { data } = await api.post<{ data?: QuoteResponseData }>(
+      QUOTE_PATH,
+      submission,
+    );
 
-    if (!response.ok) {
-      return {
-        delivered: false,
-        reason: "failed",
-        detail: `Endpoint responded ${response.status}`,
-      };
-    }
-    return { delivered: true };
-  } catch (error) {
     return {
-      delivered: false,
-      reason: "failed",
-      detail: error instanceof Error ? error.message : "Network error",
+      delivered: true,
+      emailSent: data?.data?.clientEmailSent ?? false,
+      quoteId: data?.data?.quoteId,
+      grandTotal: data?.data?.grandTotal,
     };
+  } catch (error) {
+    // The API returns { message } on failure — surface that rather than a
+    // bare status code, since it explains what the client needs to fix.
+    let detail = "Network error";
+    if (axios.isAxiosError(error)) {
+      detail =
+        (error.response?.data as { message?: string } | undefined)?.message ??
+        (error.response
+          ? `Server responded ${error.response.status}`
+          : error.message);
+    } else if (error instanceof Error) {
+      detail = error.message;
+    }
+    return { delivered: false, reason: "failed", detail };
   }
 }

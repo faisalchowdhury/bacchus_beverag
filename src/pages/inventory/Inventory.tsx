@@ -2,7 +2,11 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router";
 import Header from "../../layouts/Header";
 import Footer from "../../layouts/Footer";
-import { CATEGORY_GROUPS, INVENTORY, INVENTORY_CATEGORIES } from "../../utils/inventory";
+import {
+  CATEGORY_GROUPS,
+  INVENTORY,
+  INVENTORY_CATEGORIES,
+} from "../../utils/inventory";
 import type { InventoryCategory, InventoryTier } from "../../types";
 import { Search, ArrowRight, Info } from "lucide-react";
 
@@ -74,18 +78,19 @@ export default function Inventory() {
       <Header />
 
       {/* Page Header */}
-      <section className="relative pt-44 pb-20 overflow-hidden bg-gradient-to-b from-luxury-charcoal to-luxury-black border-b border-white/5">
+      <section className="relative pt-28 sm:pt-36 lg:pt-44 pb-14 sm:pb-20 overflow-hidden bg-gradient-to-b from-luxury-charcoal to-luxury-black border-b border-white/5">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10 text-center">
           <span className="text-xs uppercase tracking-[0.4em] text-luxury-gold font-sans font-semibold mb-3 block">
             The Current Stock List
           </span>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-bold mb-6">
-            Beer, Wine <span className="gradient-text-gold font-serif">& Spirits</span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold mb-6">
+            Beer, Wine{" "}
+            <span className="gradient-text-gold font-serif">& Spirits</span>
           </h1>
-          <p className="text-white/60 text-lg leading-relaxed max-w-3xl mx-auto font-light">
-            Everything we pour, with the shelf tier each bottle belongs to. Your selected tier
-            unlocks every shelf beneath it, and liqueurs are poured across all programs as cocktail
-            modifiers.
+          <p className="text-white/60 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto font-light">
+            Everything we pour, with the shelf tier each bottle belongs to. Your
+            selected tier unlocks every shelf beneath it, and liqueurs are
+            poured across all programs as cocktail modifiers.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
             <span className="px-4 py-2 rounded-full bg-luxury-charcoal/60 border border-white/5 text-[11px] uppercase tracking-widest text-white/50 font-semibold">
@@ -102,7 +107,7 @@ export default function Inventory() {
       </section>
 
       {/* Filters */}
-      <section className="py-8 bg-luxury-charcoal/30 border-b border-white/5 sticky top-[72px] lg:top-[88px] z-30 backdrop-blur-xl">
+      <section className="py-8 bg-luxury-charcoal/30 border-b border-white/5 sticky top-[var(--header-h-compact)] z-30 backdrop-blur-xl">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl space-y-5">
           <div className="relative w-full lg:max-w-md">
             <Search
@@ -118,7 +123,9 @@ export default function Inventory() {
             />
           </div>
 
-          <div className="w-full overflow-x-auto flex gap-2.5 pb-1">
+          {/* Swipeable on touch; bleeds to the viewport edge so it reads as
+              scrollable rather than clipped. */}
+          <div className="w-full overflow-x-auto no-scrollbar flex gap-2.5 pb-1 -mx-4 px-4 sm:mx-0 sm:px-0">
             {[ALL, ...INVENTORY_CATEGORIES].map((cat) => (
               <button
                 key={cat}
@@ -137,15 +144,17 @@ export default function Inventory() {
       </section>
 
       {/* Catalog */}
-      <section className="py-20">
+      <section className="py-14 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           {matches.length === 0 ? (
-            <div className="text-center py-20 bg-luxury-charcoal/20 rounded-3xl border border-white/5 max-w-lg mx-auto">
+            <div className="text-center py-14 sm:py-20 bg-luxury-charcoal/20 rounded-3xl border border-white/5 max-w-lg mx-auto">
               <span className="text-4xl mb-4 block">🔍</span>
-              <h3 className="font-serif text-xl font-bold mb-2">Nothing Matches</h3>
+              <h3 className="font-serif text-xl font-bold mb-2">
+                Nothing Matches
+              </h3>
               <p className="text-white/40 text-sm font-light leading-relaxed px-6">
-                We couldn't find anything for "{query}". Try a different spelling, or reset the
-                category filter.
+                We couldn't find anything for "{query}". Try a different
+                spelling, or reset the category filter.
               </p>
             </div>
           ) : (
@@ -153,7 +162,9 @@ export default function Inventory() {
               {grouped.map((group) => (
                 <div key={group.label}>
                   <div className="flex items-baseline gap-4 mb-8">
-                    <h2 className="text-3xl sm:text-4xl font-serif font-bold">{group.label}</h2>
+                    <h2 className="text-3xl sm:text-4xl font-serif font-bold">
+                      {group.label}
+                    </h2>
                     <span className="h-[1px] flex-1 bg-white/5" />
                   </div>
 
@@ -179,7 +190,9 @@ export default function Inventory() {
                                 <div className="font-serif text-base font-semibold leading-snug text-luxury-ivory">
                                   {item.name}
                                 </div>
-                                {(item.origin || item.vintage || item.format) && (
+                                {(item.origin ||
+                                  item.vintage ||
+                                  item.format) && (
                                   <div className="text-[11px] text-white/40 font-light mt-1">
                                     {[item.origin, item.vintage, item.format]
                                       .filter(Boolean)
@@ -208,20 +221,22 @@ export default function Inventory() {
       </section>
 
       {/* Specialty orders note */}
-      <section className="pb-24">
+      <section className="pb-16 sm:pb-20 lg:pb-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-          <div className="glass-card rounded-[32px] border-luxury-gold/20 p-10 text-center">
+          <div className="glass-card rounded-[32px] border-luxury-gold/20 p-7 sm:p-10 text-center">
             <h3 className="text-2xl sm:text-3xl font-serif font-bold mb-4">
-              Looking for something <span className="gradient-text-gold font-serif">not listed?</span>
+              Looking for something{" "}
+              <span className="gradient-text-gold font-serif">not listed?</span>
             </h3>
             <p className="text-white/50 text-sm font-light max-w-xl mx-auto mb-8 leading-relaxed">
-              You may request specialty beer or wine orders. We make every reasonable effort to
-              obtain requested products, though availability cannot be guaranteed. Approved
-              specialty orders are purchased in advance and billed on your final invoice.
+              You may request specialty beer or wine orders. We make every
+              reasonable effort to obtain requested products, though
+              availability cannot be guaranteed. Approved specialty orders are
+              purchased in advance and billed on your final invoice.
             </p>
             <Link
               to="/quote"
-              className="inline-flex items-center gap-2 px-10 py-4 bg-luxury-gold text-luxury-black font-semibold text-xs tracking-widest uppercase rounded-full hover:bg-white transition-all duration-300"
+              className="inline-flex items-center justify-center text-center gap-2 w-full sm:w-auto px-6 sm:px-10 py-4 bg-luxury-gold text-luxury-black font-semibold text-xs tracking-widest uppercase rounded-full hover:bg-white transition-all duration-300"
             >
               Request It In Your Quote <ArrowRight size={14} />
             </Link>

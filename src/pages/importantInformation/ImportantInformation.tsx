@@ -12,7 +12,7 @@ import {
   WINE_BEER_TIERS,
   money,
 } from "../../features/quote-wizard/pricing";
-import { ArrowRight, Info, AlertTriangle, Calculator } from "lucide-react";
+import { ArrowRight, Info, AlertTriangle, Calculator, ChevronDown } from "lucide-react";
 
 /* ──────────────────────────────────────────────────────────────────
    Section order below is deliberate — later sections reference
@@ -36,6 +36,40 @@ const SECTIONS = [
 ];
 
 /* ── Building blocks ──────────────────────────────────────────────── */
+
+/** Shared by the mobile disclosure and the desktop sticky sidebar. */
+function TocNav({
+  activeSection,
+  onJump,
+}: {
+  activeSection: string;
+  onJump: (id: string) => void;
+}) {
+  return (
+    <nav className="flex flex-col gap-1 mt-5">
+      {SECTIONS.map((section, i) => (
+        <a
+          key={section.id}
+          href={`#${section.id}`}
+          onClick={(e) => {
+            e.preventDefault();
+            onJump(section.id);
+          }}
+          className={`flex items-baseline gap-2.5 px-3 py-2.5 lg:py-2 rounded-lg text-xs font-light transition-all duration-300 ${
+            activeSection === section.id
+              ? "bg-luxury-gold/10 text-luxury-gold font-medium"
+              : "text-white/50 hover:text-white hover:bg-white/[0.03]"
+          }`}
+        >
+          <span className="tabular-nums opacity-50 text-[10px]">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          {section.label}
+        </a>
+      ))}
+    </nav>
+  );
+}
 
 function Section({
   id,
@@ -203,16 +237,16 @@ export default function ImportantInformation() {
       <Header />
 
       {/* Hero */}
-      <section className="relative pt-44 pb-20 overflow-hidden bg-gradient-to-b from-luxury-charcoal to-luxury-black border-b border-white/5">
+      <section className="relative pt-28 sm:pt-36 lg:pt-44 pb-14 sm:pb-20 overflow-hidden bg-gradient-to-b from-luxury-charcoal to-luxury-black border-b border-white/5">
         <div className="absolute inset-0 bg-gradient-radial from-luxury-gold/5 via-transparent to-transparent pointer-events-none" />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10 text-center">
           <span className="text-xs uppercase tracking-[0.4em] text-luxury-gold font-sans font-semibold mb-3 block">
             Policies, Pricing & Staffing
           </span>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-bold mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold mb-6">
             Important <span className="gradient-text-gold font-serif">Information</span>
           </h1>
-          <p className="text-white/60 text-lg leading-relaxed max-w-3xl mx-auto font-light">
+          <p className="text-white/60 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto font-light">
             Everything that explains how your selections affect pricing, staffing and service. The
             questionnaire collects your details — this page explains what those details mean. Keep it
             open for reference while you build your quote.
@@ -220,13 +254,13 @@ export default function ImportantInformation() {
           <div className="flex flex-wrap items-center justify-center gap-4 mt-10">
             <Link
               to="/quote"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-luxury-gold text-luxury-black font-semibold text-xs tracking-widest uppercase rounded-full hover:bg-white transition-all duration-300"
+              className="inline-flex items-center justify-center text-center gap-2 w-full sm:w-auto px-6 sm:px-8 py-3.5 bg-luxury-gold text-luxury-black font-semibold text-xs tracking-widest uppercase rounded-full hover:bg-white transition-all duration-300"
             >
               Start Your Quote <ArrowRight size={14} />
             </Link>
             <Link
               to="/packages"
-              className="inline-flex items-center gap-2 px-8 py-3.5 border border-white/20 hover:border-luxury-gold hover:text-luxury-gold text-white font-semibold text-xs tracking-widest uppercase rounded-full transition-all duration-300"
+              className="inline-flex items-center justify-center text-center gap-2 w-full sm:w-auto px-6 sm:px-8 py-3.5 border border-white/20 hover:border-luxury-gold hover:text-luxury-gold text-white font-semibold text-xs tracking-widest uppercase rounded-full transition-all duration-300"
             >
               View Rate Card
             </Link>
@@ -235,43 +269,39 @@ export default function ImportantInformation() {
       </section>
 
       {/* Body */}
-      <section className="py-20 lg:py-24">
+      <section className="py-14 sm:py-20 lg:py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 lg:gap-14 items-start">
-            {/* TOC */}
-            <aside className="lg:col-span-1 lg:sticky lg:top-28">
-              <div className="glass-card rounded-[28px] border-white/5 p-6">
-                <h3 className="text-xs uppercase tracking-widest text-luxury-gold font-semibold mb-5">
+            {/*
+              TOC. Fourteen stacked links would push the actual content nearly a
+              full screen down on a phone, so below lg the list lives inside a
+              collapsed disclosure; from lg up it is the usual sticky sidebar.
+            */}
+            <aside className="lg:col-span-1 lg:sticky lg:top-[calc(var(--header-h-compact)+1.5rem)]">
+              <details className="lg:hidden glass-card rounded-[28px] border-white/5 p-5 group">
+                <summary className="flex items-center justify-between gap-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                  <h3 className="text-xs uppercase tracking-widest text-luxury-gold font-semibold">
+                    On This Page
+                  </h3>
+                  <ChevronDown
+                    size={16}
+                    className="text-luxury-gold transition-transform duration-300 group-open:rotate-180"
+                  />
+                </summary>
+                <TocNav activeSection={activeSection} onJump={jumpTo} />
+              </details>
+
+              <div className="hidden lg:block glass-card rounded-[28px] border-white/5 p-6">
+                <h3 className="text-xs uppercase tracking-widest text-luxury-gold font-semibold">
                   On This Page
                 </h3>
-                <nav className="flex flex-col gap-1">
-                  {SECTIONS.map((section, i) => (
-                    <a
-                      key={section.id}
-                      href={`#${section.id}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        jumpTo(section.id);
-                      }}
-                      className={`flex items-baseline gap-2.5 px-3 py-2 rounded-lg text-xs font-light transition-all duration-300 ${
-                        activeSection === section.id
-                          ? "bg-luxury-gold/10 text-luxury-gold font-medium"
-                          : "text-white/50 hover:text-white hover:bg-white/[0.03]"
-                      }`}
-                    >
-                      <span className="tabular-nums opacity-50 text-[10px]">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      {section.label}
-                    </a>
-                  ))}
-                </nav>
+                <TocNav activeSection={activeSection} onJump={jumpTo} />
               </div>
             </aside>
 
             {/* Content */}
             <div className="lg:col-span-3">
-              <div className="glass-card rounded-[32px] border-white/5 p-7 sm:p-10 lg:p-12">
+              <div className="glass-card rounded-[32px] border-white/5 p-5 sm:p-8 lg:p-12">
                 {/* 01 — Guest Count */}
                 <Section id="guest-count" index={1} title="Guest Count">
                   <p>
@@ -645,7 +675,7 @@ export default function ImportantInformation() {
               </div>
 
               {/* Closing CTA */}
-              <div className="mt-12 glass-card rounded-[32px] border-luxury-gold/20 p-10 text-center">
+              <div className="mt-12 glass-card rounded-[32px] border-luxury-gold/20 p-7 sm:p-10 text-center">
                 <h3 className="text-2xl sm:text-3xl font-serif font-bold mb-4">
                   Ready to <span className="gradient-text-gold font-serif">build your quote?</span>
                 </h3>
@@ -655,7 +685,7 @@ export default function ImportantInformation() {
                 </p>
                 <Link
                   to="/quote"
-                  className="inline-flex items-center gap-2 px-10 py-4 bg-luxury-gold text-luxury-black font-semibold text-xs tracking-widest uppercase rounded-full hover:bg-white transition-all duration-300"
+                  className="inline-flex items-center justify-center text-center gap-2 w-full sm:w-auto px-6 sm:px-10 py-4 bg-luxury-gold text-luxury-black font-semibold text-xs tracking-widest uppercase rounded-full hover:bg-white transition-all duration-300"
                 >
                   Open the Quote Designer <ArrowRight size={14} />
                 </Link>
