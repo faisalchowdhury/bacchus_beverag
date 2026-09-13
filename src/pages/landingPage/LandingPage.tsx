@@ -13,7 +13,6 @@ export default function LandingPage() {
 
   // Stats Counter Animation Simulation
   const [eventsCount, setEventsCount] = useState(0);
-  const [yearsCount, setYearsCount] = useState(0);
   const [satisfactionCount, setSatisfactionCount] = useState(0);
 
   useEffect(() => {
@@ -25,7 +24,6 @@ export default function LandingPage() {
     const timer = setInterval(() => {
       step++;
       setEventsCount(Math.min(Math.floor((520 / steps) * step), 520));
-      setYearsCount(Math.min(Math.floor((12 / steps) * step), 12));
       setSatisfactionCount(Math.min(Math.floor((98 / steps) * step), 98));
 
       if (step >= steps) {
@@ -425,18 +423,12 @@ export default function LandingPage() {
       {/* 7. Animated Stats Section */}
       <section className="py-14 sm:py-20 bg-luxury-charcoal/50 border-y border-white/5 relative">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 sm:gap-12 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-12 text-center">
             <div className="space-y-2">
               <div className="text-5xl sm:text-6xl font-serif font-bold text-luxury-gold">
                 {eventsCount}+
               </div>
               <p className="text-xs sm:text-sm uppercase tracking-widest text-white/50 font-medium">Events Orchestrated</p>
-            </div>
-            <div className="space-y-2">
-              <div className="text-5xl sm:text-6xl font-serif font-bold text-luxury-gold">
-                {yearsCount}+ Years
-              </div>
-              <p className="text-xs sm:text-sm uppercase tracking-widest text-white/50 font-medium">Fine Hospitality Experience</p>
             </div>
             <div className="space-y-2">
               <div className="text-5xl sm:text-6xl font-serif font-bold text-luxury-gold">

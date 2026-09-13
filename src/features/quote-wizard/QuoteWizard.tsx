@@ -56,6 +56,7 @@ const TOTAL_STEPS = STEPS.length;
 const HOUSE_ACCOUNT_SCOPES: HouseAccountScope[] = [
   "Wine & Beer Only",
   "Signature Cocktails",
+  "Wine & Beer + Signature Cocktails",
   "Liquor Shelf Tiers",
   "Full Inventory",
 ];
