@@ -111,6 +111,28 @@ Then submit one real quote and check that the emailed **Accept This Quote**
 button points at `https://faisal6000.ssh.bd/accept-quote/...` and not
 `localhost`.
 
+If that test quote's email never arrives, for the client or for staff, check
+the backend's startup log for its mail line. `📧 Mail ready` means mail is
+working, while `Mail is not configured` or `Mail credentials rejected` means the
+server's `.env` needs fixing. The full table is under "Troubleshooting: quote
+emails not arriving" in the backend README.
+
+---
+
+## Local development
+
+`vite.config.ts` binds the dev server to `DEV_PORT` (set to `5173` in `.env`)
+and falls back to `6000` when it's unset, so a production dev-server process
+started without the variable behaves exactly as before.
+
+Don't open port 6000 in a browser locally. Chrome and Firefox block it outright
+(`ERR_UNSAFE_PORT`, because it's reserved for X11). Production isn't affected
+because visitors connect over HTTPS and the reverse proxy makes the hop to 6000
+server-to-server.
+
+If Vite prints `Port 5173 is in use, trying another one…`, an old dev server
+is still running. Use the port it prints, or close the old terminal.
+
 ---
 
 ## Note on acceptance links
