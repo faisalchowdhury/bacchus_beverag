@@ -453,6 +453,14 @@ export default function ImportantInformation() {
                   <p className="italic text-white/50">
                     The hourly rate applies only to the hours the client chooses to offer an Open Bar.
                   </p>
+                  <p>
+                    Open Bar service has a{" "}
+                    <strong className="text-luxury-gold">
+                      {RATES.openBarMinimumHours}-hour minimum
+                    </strong>
+                    . We do not run an Open Bar for fewer hours; if the full service window is
+                    shorter than that, the Open Bar covers the whole window.
+                  </p>
                 </Section>
 
                 {/* 07 — Bar Minimum Fee */}

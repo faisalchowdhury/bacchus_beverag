@@ -173,10 +173,16 @@ export default function QuoteWizard() {
   const isCashBar = formValues.barType === "Cash Bar";
   const isConsumptionBar = formValues.barType === "Consumption Bar";
 
-  /* Open Bar hours can never exceed the event length. */
+  /* Open Bar hours can never exceed the event length, and — short events
+     aside — never fall below the published minimum. */
   useEffect(() => {
-    if (breakdown.eventHours > 0 && Number(formValues.openBarHours) > breakdown.eventHours) {
+    if (breakdown.eventHours <= 0) return;
+    const minimum = Math.min(RATES.openBarMinimumHours, breakdown.eventHours);
+    const current = Number(formValues.openBarHours);
+    if (current > breakdown.eventHours) {
       setValue("openBarHours", breakdown.eventHours);
+    } else if (current < minimum) {
+      setValue("openBarHours", minimum);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [breakdown.eventHours]);
@@ -665,7 +671,7 @@ export default function QuoteWizard() {
                             {
                               value: "Open Bar",
                               label: "Open Bar",
-                              badge: "Preselect beverages",
+                              badge: `${RATES.openBarMinimumHours}-hour minimum`,
                               desc: "Billed in full to the host. Beer, wine and liquor priced per guest, per Open Bar hour.",
                             },
                             {
@@ -867,7 +873,7 @@ export default function QuoteWizard() {
                                 render={({ field }) => (
                                   <input
                                     type="range"
-                                    min="0"
+                                    min={Math.min(RATES.openBarMinimumHours, Math.max(breakdown.eventHours, 1))}
                                     max={Math.max(breakdown.eventHours, 1)}
                                     step="0.5"
                                     value={field.value}
@@ -878,7 +884,8 @@ export default function QuoteWizard() {
                               />
                               <p className="text-[11px] text-white/40 font-light leading-relaxed">
                                 Hourly beverage rates apply only to the hours you choose to offer an
-                                Open Bar. Bartenders remain staffed for the full event.
+                                Open Bar, with a {RATES.openBarMinimumHours}-hour minimum. Bartenders
+                                remain staffed for the full event.
                               </p>
                             </div>
                           </>
