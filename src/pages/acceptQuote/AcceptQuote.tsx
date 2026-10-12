@@ -10,6 +10,7 @@ import {
   type PublicQuoteView,
 } from "../../api/acceptance";
 import { money } from "../../features/quote-wizard/pricing";
+import type { QuoteBreakdown } from "../../types";
 
 /* ── Small presentational helpers ──────────────────────────────────── */
 
@@ -37,6 +38,18 @@ const formatTime = (value?: string) => {
   const suffix = hours >= 12 ? "PM" : "AM";
   const display = hours % 12 === 0 ? 12 : hours % 12;
   return `${display}:${match[2]} ${suffix}`;
+};
+
+/**
+ * Quotes submitted before the alcohol service window existed have none stored,
+ * so fall back to the rule itself — the rental window less an hour at each end.
+ */
+const alcoholWindowLabel = (breakdown: QuoteBreakdown) => {
+  const hours = breakdown.alcoholServiceHours ?? Math.max(0, breakdown.eventHours - 2);
+  if (!hours) return "—";
+  return breakdown.alcoholServiceStart && breakdown.alcoholServiceEnd
+    ? `${formatTime(breakdown.alcoholServiceStart)} – ${formatTime(breakdown.alcoholServiceEnd)} (${hours} hrs)`
+    : `${hours} hrs`;
 };
 
 const formatDateTime = (value?: string | null) => {
@@ -283,8 +296,12 @@ export default function AcceptQuote() {
           <Fact label="Date" value={formatDate(s.eventDate)} />
           <Fact label="Venue" value={s.venueLocation || "—"} />
           <Fact
-            label="Service window"
+            label="Event window"
             value={`${formatTime(s.eventStartTime)} – ${formatTime(s.eventEndTime)} (${b.eventHours} hrs)`}
+          />
+          <Fact
+            label="Alcohol service window"
+            value={alcoholWindowLabel(b)}
           />
           <Fact label="Guests" value={`${s.guestCount} including minors`} />
           <Fact label="Bar type" value={s.barType} />
@@ -294,6 +311,12 @@ export default function AcceptQuote() {
           />
           {isOpenBar && (
             <Fact label="Open Bar hours" value={`${b.openBarHours} hrs`} />
+          )}
+          {isOpenBar && b.cashBarRemainderHours > 0 && (
+            <Fact
+              label="Cash Bar hours"
+              value={`${b.cashBarRemainderHours} hrs — guests purchase their own drinks`}
+            />
           )}
         </dl>
       </Panel>

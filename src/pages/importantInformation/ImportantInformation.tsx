@@ -396,7 +396,7 @@ export default function ImportantInformation() {
                         </strong>{" "}
                         per bartender
                       </>,
-                      "Service hours are calculated from the event start and end times entered by the client.",
+                      "Staffed hours are calculated from the Event Start and Event End times entered by the client — the venue rental window, not the alcohol service window.",
                     ]}
                   />
                   <p className="text-white/75">The staffing calculation includes:</p>
@@ -676,8 +676,8 @@ export default function ImportantInformation() {
                     </Formula>
                   </Callout>
                   <p>
-                    The Staffing Fee is tax exempt. Drinks charged against a Consumption Bar House
-                    Account are likewise exempt.
+                    The Staffing Fee is the only tax-exempt line item. Gratuity is taxed, and a
+                    Consumption Bar House Account is taxable because it pays for drinks.
                   </p>
                 </Section>
               </div>

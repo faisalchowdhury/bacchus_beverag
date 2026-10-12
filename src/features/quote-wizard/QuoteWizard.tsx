@@ -102,6 +102,20 @@ function PolicyNote({ children }: { children: React.ReactNode }) {
   );
 }
 
+/** "13:00" → "1:00 PM". */
+const formatClock = (value?: string) => {
+  const match = /^(\d{1,2}):(\d{2})$/.exec(String(value ?? "").trim());
+  if (!match) return "—";
+  const hours = Number(match[1]);
+  const suffix = hours >= 12 ? "PM" : "AM";
+  const display = hours % 12 === 0 ? 12 : hours % 12;
+  return `${display}:${match[2]} ${suffix}`;
+};
+
+/** "1:00 PM – 9:00 PM", or a dash until both event times are set. */
+const formatWindow = (start?: string, end?: string) =>
+  start && end ? `${formatClock(start)} – ${formatClock(end)}` : "—";
+
 const inputClass =
   "w-full bg-luxury-charcoal border border-white/10 rounded-xl px-4 py-3.5 focus:border-luxury-gold focus:ring-1 focus:ring-luxury-gold/20 outline-none transition-colors";
 
@@ -125,14 +139,16 @@ export default function QuoteWizard() {
       eventType: "Wedding",
       eventDate: "",
       venueLocation: "",
-      eventStartTime: "18:00",
+      // A six-hour rental is the shortest that still fits the Open Bar
+      // minimum once the Accessible Alcohol Policy takes an hour off each end.
+      eventStartTime: "17:00",
       eventEndTime: "23:00",
       guestCount: 100,
       glasswareRental: true,
       barType: "Open Bar",
       additionalBarStations: 0,
       wineBeerTier: "Tier 1",
-      openBarHours: 5,
+      openBarHours: RATES.openBarMinimumHours,
       specialtyOrderRequest: "",
       specialtyOrderQuantity: 0,
       liquorMode: "Full Shelf",
@@ -341,8 +357,20 @@ export default function QuoteWizard() {
                 </span>
               </div>
               <div className="flex justify-between text-sm py-1 border-b border-white/5">
-                <span className="text-white/50">Service Hours:</span>
-                <span>{breakdown.eventHours} hrs</span>
+                <span className="text-white/50">Event Window:</span>
+                <span>
+                  {formatWindow(formValues.eventStartTime, formValues.eventEndTime)} (
+                  {breakdown.eventHours} hrs)
+                </span>
+              </div>
+              <div className="flex justify-between text-sm py-1 border-b border-white/5">
+                <span className="text-white/50">Alcohol Service:</span>
+                <span>
+                  {formatWindow(
+                    breakdown.alcoholServiceStart,
+                    breakdown.alcoholServiceEnd,
+                  )}
+                </span>
               </div>
               <div className="flex justify-between text-sm py-2 text-luxury-gold font-bold">
                 <span>Estimated Grand Total:</span>
@@ -413,7 +441,7 @@ export default function QuoteWizard() {
                         <StepHeading
                           icon={Calendar}
                           title="Event Details"
-                          subtitle="Service hours are calculated from your start and end times."
+                          subtitle="Enter your venue rental window — we calculate the alcohol service hours from it."
                         />
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -459,7 +487,7 @@ export default function QuoteWizard() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                           <div>
                             <label className="block text-xs uppercase tracking-widest text-white/50 mb-2 font-medium">
-                              Service Start Time
+                              Event Start
                             </label>
                             <input
                               type="time"
@@ -470,7 +498,7 @@ export default function QuoteWizard() {
                           </div>
                           <div>
                             <label className="block text-xs uppercase tracking-widest text-white/50 mb-2 font-medium">
-                              Service End Time
+                              Event End
                             </label>
                             <input
                               type="time"
@@ -479,11 +507,35 @@ export default function QuoteWizard() {
                               required
                             />
                           </div>
+                          <div className="col-span-1 sm:col-span-2">
+                            <PolicyNote>
+                              <strong>Accessible Alcohol Policy:</strong> Alcohol service begins one hour after the Event Start time and concludes one hour before the Event End time. These times determine the available Alcohol Service Window for your event.
+                            </PolicyNote>
+                          </div>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        {/* Calculated for the client — never entered by hand. */}
+                        <div className="rounded-2xl border border-luxury-gold/25 bg-luxury-gold/[0.06] p-5 sm:p-6 text-center">
+                          <div className="text-[10px] uppercase tracking-[0.3em] text-luxury-gold font-semibold mb-2">
+                            Your Alcohol Service Window
+                          </div>
+                          <div className="text-2xl sm:text-3xl font-serif font-bold text-luxury-gold">
+                            {formatWindow(
+                              breakdown.alcoholServiceStart,
+                              breakdown.alcoholServiceEnd,
+                            )}
+                          </div>
+                          <p className="text-[11px] text-white/50 font-light mt-2 leading-relaxed">
+                            {breakdown.alcoholServiceHours > 0
+                              ? `${breakdown.alcoholServiceHours} hrs of alcohol service, calculated from your ${formatWindow(formValues.eventStartTime, formValues.eventEndTime)} rental window.`
+                              : "Enter your Event Start and Event End to see the hours alcohol can be served."}
+                          </p>
+                        </div>
+
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                           {[
-                            { label: "Event Service", value: `${breakdown.eventHours} hrs` },
+                            { label: "Rental Window", value: `${breakdown.eventHours} hrs` },
+                            { label: "Alcohol Service", value: `${breakdown.alcoholServiceHours} hrs` },
                             { label: "Setup + Teardown", value: `${RATES.staffingBufferHours} hrs` },
                             { label: "Total Staffed", value: `${breakdown.staffedHours} hrs` },
                           ].map((stat) => (
@@ -864,17 +916,28 @@ export default function QuoteWizard() {
                                   Open Bar Hours
                                 </label>
                                 <span className="text-2xl font-serif font-bold text-luxury-gold">
-                                  {formValues.openBarHours} of {breakdown.eventHours} hrs
+                                  {formValues.openBarHours} of {breakdown.alcoholServiceHours} hrs
                                 </span>
                               </div>
+                              <p className="text-[11px] text-white/50 font-light leading-relaxed">
+                                Your alcohol service window is{" "}
+                                <span className="text-luxury-gold">
+                                  {formatWindow(
+                                    breakdown.alcoholServiceStart,
+                                    breakdown.alcoholServiceEnd,
+                                  )}
+                                </span>
+                                . Choose how much of it runs as an Open Bar — the rest is a Cash
+                                Bar, where guests buy their own drinks.
+                              </p>
                               <Controller
                                 control={control}
                                 name="openBarHours"
                                 render={({ field }) => (
                                   <input
                                     type="range"
-                                    min={Math.min(RATES.openBarMinimumHours, Math.max(breakdown.eventHours, 1))}
-                                    max={Math.max(breakdown.eventHours, 1)}
+                                    min={Math.min(RATES.openBarMinimumHours, Math.max(breakdown.alcoholServiceHours, 1))}
+                                    max={Math.max(breakdown.alcoholServiceHours, 1)}
                                     step="0.5"
                                     value={field.value}
                                     onChange={(e) => field.onChange(Number(e.target.value))}
@@ -882,6 +945,25 @@ export default function QuoteWizard() {
                                   />
                                 )}
                               />
+                              <div className="grid grid-cols-2 gap-3">
+                                <div className="rounded-xl border border-luxury-gold/25 bg-luxury-gold/[0.06] px-4 py-3 text-center">
+                                  <div className="text-lg font-serif font-bold text-luxury-gold">
+                                    {breakdown.openBarHours} hrs
+                                  </div>
+                                  <div className="text-[9px] uppercase tracking-widest text-white/40 font-medium">
+                                    Open Bar
+                                  </div>
+                                </div>
+                                <div className="rounded-xl border border-white/10 bg-luxury-black/40 px-4 py-3 text-center">
+                                  <div className="text-lg font-serif font-bold text-white/70">
+                                    {breakdown.cashBarRemainderHours} hrs
+                                  </div>
+                                  <div className="text-[9px] uppercase tracking-widest text-white/40 font-medium">
+                                    Cash Bar (guests pay)
+                                  </div>
+                                </div>
+                              </div>
+
                               <p className="text-[11px] text-white/40 font-light leading-relaxed">
                                 Hourly beverage rates apply only to the hours you choose to offer an
                                 Open Bar, with a {RATES.openBarMinimumHours}-hour minimum. Bartenders
@@ -1515,8 +1597,12 @@ export default function QuoteWizard() {
                               ["Event Date", formValues.eventDate || "—"],
                               ["Venue", formValues.venueLocation || "—"],
                               [
-                                "Service Window",
-                                `${formValues.eventStartTime} – ${formValues.eventEndTime} (${breakdown.eventHours} hrs)`,
+                                "Event Window",
+                                `${formatWindow(formValues.eventStartTime, formValues.eventEndTime)} (${breakdown.eventHours} hrs)`,
+                              ],
+                              [
+                                "Alcohol Service Window",
+                                `${formatWindow(breakdown.alcoholServiceStart, breakdown.alcoholServiceEnd)} (${breakdown.alcoholServiceHours} hrs)`,
                               ],
                               ["Total Guests", `${formValues.guestCount}`],
                               [
@@ -1674,10 +1760,21 @@ export default function QuoteWizard() {
                       "Bartenders",
                       `${breakdown.bartenderCount} · ${breakdown.barStations} bar${breakdown.barStations === 1 ? "" : "s"}`,
                     ],
-                    ["Service Hours", `${breakdown.eventHours} hrs`],
+                    ["Rental Window", `${breakdown.eventHours} hrs`],
+                    [
+                      "Alcohol Service",
+                      breakdown.alcoholServiceHours > 0
+                        ? `${formatWindow(breakdown.alcoholServiceStart, breakdown.alcoholServiceEnd)}`
+                        : "—",
+                    ],
                     ["Staffed Hours", `${breakdown.staffedHours} hrs`],
                     ...(isOpenBar
-                      ? [["Open Bar Hours", `${breakdown.openBarHours} hrs`] as [string, string]]
+                      ? ([
+                          ["Open Bar Hours", `${breakdown.openBarHours} hrs`],
+                          ...(breakdown.cashBarRemainderHours > 0
+                            ? [["Cash Bar Hours", `${breakdown.cashBarRemainderHours} hrs`]]
+                            : []),
+                        ] as [string, string][])
                       : []),
                   ].map(([label, value]) => (
                     <div
@@ -1725,8 +1822,8 @@ export default function QuoteWizard() {
                     <span className="tabular-nums">{money(breakdown.tax)}</span>
                   </div>
                   <div className="text-[10px] text-white/30 leading-snug">
-                    Tax base = subtotal + gratuity − {money(breakdown.taxExemptTotal)} exempt
-                    charges.
+                    Tax base = subtotal + gratuity − {money(breakdown.taxExemptTotal)} staffing
+                    fee, the only exempt line.
                   </div>
                 </div>
 
