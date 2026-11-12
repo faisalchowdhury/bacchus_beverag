@@ -12,6 +12,7 @@ import {
   WINE_BEER_TIERS,
   calculateQuote,
   money,
+  pct,
 } from "./pricing";
 import { INVENTORY } from "../../utils/inventory";
 import { SHELF_CATEGORIES } from "../../types";
@@ -1498,7 +1499,7 @@ export default function QuoteWizard() {
                                   />
                                   <p className="text-[11px] text-white/60 leading-relaxed font-light">
                                     Tabs must be closed before the event concludes. A tab left open
-                                    automatically incurs a {RATES.openTabGratuityRate * 100}%
+                                    automatically incurs a {pct(RATES.openTabGratuityRate)}%
                                     gratuity.
                                   </p>
                                 </div>
@@ -1814,11 +1815,11 @@ export default function QuoteWizard() {
                     <span className="tabular-nums">{money(breakdown.subtotal)}</span>
                   </div>
                   <div className="flex justify-between text-[11px] text-white/40">
-                    <span>Gratuity ({RATES.gratuityRate * 100}%)</span>
+                    <span>Gratuity ({pct(RATES.gratuityRate)}%)</span>
                     <span className="tabular-nums">{money(breakdown.gratuity)}</span>
                   </div>
                   <div className="flex justify-between text-[11px] text-white/40">
-                    <span>Tax ({RATES.taxRate * 100}% of {money(breakdown.taxableBase)})</span>
+                    <span>Tax ({pct(RATES.taxRate)}% of {money(breakdown.taxableBase)})</span>
                     <span className="tabular-nums">{money(breakdown.tax)}</span>
                   </div>
                   <div className="text-[10px] text-white/30 leading-snug">
