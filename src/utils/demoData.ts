@@ -1,5 +1,5 @@
 import type { ServiceStyle, Testimonial } from "../types";
-import { FULL_SHELF_RATES, RATES, money } from "../features/quote-wizard/pricing";
+import { FULL_SHELF_RATES, RATES, money, pct } from "../features/quote-wizard/pricing";
 
 export const SERVICE_STYLES: ServiceStyle[] = [
   {
@@ -15,7 +15,7 @@ export const SERVICE_STYLES: ServiceStyle[] = [
       "Wine + beer tiers from $2.50 / guest / hour",
       "Signature cocktails from $2.00 / guest / hour, or full shelf access from $5.50",
       "Beer & wine is mandatory with any liquor selection",
-      `${money(RATES.barMinimum)} bar minimum across beer, wine and liquor`,
+      `${money(RATES.barMinimum)} bar minimum across beer, wine, liquor and champagne toast`,
       "Cash Bar administrative fee waived",
       "Champagne toast and additional bar stations available",
     ],
@@ -33,7 +33,7 @@ export const SERVICE_STYLES: ServiceStyle[] = [
       "Served from available inventory on the event day",
       "Specialty beer & wine orders may still be requested",
       "Open a host tab with restrictions on drinks, guests or spend",
-      `Tabs left open at the close of the event incur a ${RATES.openTabGratuityRate * 100}% gratuity`,
+      `Tabs left open at the close of the event incur a ${pct(RATES.openTabGratuityRate)}% gratuity`,
       "Staffing, glassware and the service fee still apply",
     ],
   },

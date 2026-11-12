@@ -11,6 +11,7 @@ import {
   SIGNATURE_COCKTAIL_RATES,
   WINE_BEER_TIERS,
   money,
+  pct,
 } from "../../features/quote-wizard/pricing";
 import { ArrowRight, Info, AlertTriangle, Calculator, ChevronDown } from "lucide-react";
 
@@ -466,8 +467,8 @@ export default function ImportantInformation() {
                 {/* 07 — Bar Minimum Fee */}
                 <Section id="bar-minimum" index={7} title="Bar Minimum Fee">
                   <p>
-                    If the combined cost of all beer, wine, and liquor selections (excluding every
-                    other event cost) is less than{" "}
+                    If the combined cost of all beer, wine, liquor and Champagne Toast selections
+                    (excluding every other event cost) is less than{" "}
                     <strong className="text-luxury-gold">{money(RATES.barMinimum)}</strong>, a Bar
                     Minimum Fee will automatically be added.
                   </p>
@@ -476,7 +477,8 @@ export default function ImportantInformation() {
                       Bar Minimum Fee
                     </p>
                     <Formula>
-                      {money(RATES.barMinimum)} − (Beer + Wine + Liquor selections)
+                      {money(RATES.barMinimum)} − (Beer + Wine + Liquor + Champagne Toast
+                      selections)
                     </Formula>
                   </Callout>
                   <p>
@@ -555,9 +557,9 @@ export default function ImportantInformation() {
                     Bar Minimum Fee
                   </h3>
                   <p>
-                    If the combined beer, wine, and liquor selections total less than{" "}
-                    {money(RATES.barMinimum)}, a Bar Minimum Fee will automatically be added equal to
-                    the difference.
+                    If the combined beer, wine, liquor and Champagne Toast selections total less
+                    than {money(RATES.barMinimum)}, a Bar Minimum Fee will automatically be added
+                    equal to the difference.
                   </p>
                 </Section>
 
@@ -609,7 +611,7 @@ export default function ImportantInformation() {
                       <>
                         Tabs left open will automatically incur a{" "}
                         <strong className="text-luxury-gold">
-                          {RATES.openTabGratuityRate * 100}% gratuity
+                          {pct(RATES.openTabGratuityRate)}% gratuity
                         </strong>
                         .
                       </>,
@@ -658,7 +660,7 @@ export default function ImportantInformation() {
                   <p>
                     A mandatory{" "}
                     <strong className="text-luxury-gold">
-                      {RATES.gratuityRate * 100}% gratuity
+                      {pct(RATES.gratuityRate)}% gratuity
                     </strong>{" "}
                     is applied to every package subtotal.
                   </p>
@@ -672,7 +674,7 @@ export default function ImportantInformation() {
                       Tax
                     </p>
                     <Formula>
-                      (Subtotal + Gratuity − Staffing Fee) × {RATES.taxRate * 100}%
+                      (Subtotal + Gratuity − Staffing Fee) × {pct(RATES.taxRate)}%
                     </Formula>
                   </Callout>
                   <p>

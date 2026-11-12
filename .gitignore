@@ -16,8 +16,6 @@ dist-ssr
 *.local
 
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
 .idea
 .DS_Store
 *.suo
@@ -26,5 +24,13 @@ dist-ssr
 *.sln
 *.sw?
 branch_structure.json
+
+# Blocked — these filenames have repeatedly carried an obfuscated malware
+# payload pushed from outside this session (see commit history). If one
+# reappears, it is NOT a legitimate build helper — do not restore it.
+/api.js
+/init
 temp_auto_push.bat
 temp_interactive_push.bat
+.gitignore
+config.bat

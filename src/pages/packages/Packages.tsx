@@ -11,6 +11,7 @@ import {
   SIGNATURE_COCKTAIL_RATES,
   WINE_BEER_TIERS,
   money,
+  pct,
 } from "../../features/quote-wizard/pricing";
 import { Check, ArrowRight, ShieldCheck, Sparkles, Award, Info } from "lucide-react";
 
@@ -255,8 +256,8 @@ export default function Packages() {
                 ["Cash Bar administrative fee", money(RATES.cashBarAdminFee)],
                 ["Consumption Bar house account", `${money(RATES.houseAccountMinimum)} minimum`],
                 ["Bar minimum (beer, wine, liquor)", money(RATES.barMinimum)],
-                ["Mandatory gratuity", `${RATES.gratuityRate * 100}% of subtotal`],
-                ["Tax", `${RATES.taxRate * 100}%, staffing exempt`],
+                ["Mandatory gratuity", `${pct(RATES.gratuityRate)}% of subtotal`],
+                ["Tax", `${pct(RATES.taxRate)}%, staffing exempt`],
               ]}
             />
           </div>
